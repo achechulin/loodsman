@@ -1,4 +1,4 @@
-// This Source Code Form is subject to the terms of the Mozilla Public
+п»ї// This Source Code Form is subject to the terms of the Mozilla Public
 // License, v. 2.0. If a copy of the MPL was not distributed with this file,
 // You can obtain one at http://mozilla.org/MPL/2.0/
 unit Loodsman.Infrastructure.Resources;
@@ -8,12 +8,12 @@ interface
 uses
     SysUtils, ActiveX;
 
-///  <summary>Освобождает все загруженные ресурсы.</summary>
+///  <summary>РћСЃРІРѕР±РѕР¶РґР°РµС‚ РІСЃРµ Р·Р°РіСЂСѓР¶РµРЅРЅС‹Рµ СЂРµСЃСѓСЂСЃС‹.</summary>
 procedure FreeResources;
 
-///  <summary>Получить библиотеку типов ЛОЦМАН Клиент.</summary>
-///  <remarks>Библиотека типов необходима для реализации описанных
-///  в ней интерфейсов (например, <c>IDataSet</c>) с помощью
+///  <summary>РџРѕР»СѓС‡РёС‚СЊ Р±РёР±Р»РёРѕС‚РµРєСѓ С‚РёРїРѕРІ Р›РћР¦РњРђРќ РљР»РёРµРЅС‚.</summary>
+///  <remarks>Р‘РёР±Р»РёРѕС‚РµРєР° С‚РёРїРѕРІ РЅРµРѕР±С…РѕРґРёРјР° РґР»СЏ СЂРµР°Р»РёР·Р°С†РёРё РѕРїРёСЃР°РЅРЅС‹С…
+///  РІ РЅРµР№ РёРЅС‚РµСЂС„РµР№СЃРѕРІ (РЅР°РїСЂРёРјРµСЂ, <c>IDataSet</c>) СЃ РїРѕРјРѕС‰СЊСЋ
 ///  <see cref="ComObj|TAutoIntfObject">TAutoIntfObject</see>.</remarks>
 function GetLoodsmanTypeLib: ITypeLib;
 

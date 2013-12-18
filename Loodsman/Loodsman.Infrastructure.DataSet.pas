@@ -1,4 +1,4 @@
-// This Source Code Form is subject to the terms of the Mozilla Public
+п»ї// This Source Code Form is subject to the terms of the Mozilla Public
 // License, v. 2.0. If a copy of the MPL was not distributed with this file,
 // You can obtain one at http://mozilla.org/MPL/2.0/
 unit Loodsman.Infrastructure.DataSet;
@@ -8,19 +8,19 @@ interface
 uses
     SysUtils, Loodsman_TLB;
 
-///  <summary>Создает набор данных и возвращает интерфейс IDataSet для управления им.</summary>
+///  <summary>РЎРѕР·РґР°РµС‚ РЅР°Р±РѕСЂ РґР°РЅРЅС‹С… Рё РІРѕР·РІСЂР°С‰Р°РµС‚ РёРЅС‚РµСЂС„РµР№СЃ IDataSet РґР»СЏ СѓРїСЂР°РІР»РµРЅРёСЏ РёРј.</summary>
 function CreateDataSet: IDataSet; overload;
 
-///  <summary>Создает набор данных и возвращает интерфейс IDataSet для управления им.</summary>
-///  <param name="AData">Пакет данных, из которого будет создан набор данных.</param>
+///  <summary>РЎРѕР·РґР°РµС‚ РЅР°Р±РѕСЂ РґР°РЅРЅС‹С… Рё РІРѕР·РІСЂР°С‰Р°РµС‚ РёРЅС‚РµСЂС„РµР№СЃ IDataSet РґР»СЏ СѓРїСЂР°РІР»РµРЅРёСЏ РёРј.</summary>
+///  <param name="AData">РџР°РєРµС‚ РґР°РЅРЅС‹С…, РёР· РєРѕС‚РѕСЂРѕРіРѕ Р±СѓРґРµС‚ СЃРѕР·РґР°РЅ РЅР°Р±РѕСЂ РґР°РЅРЅС‹С….</param>
 function CreateDataSet(const AData: OleVariant): IDataSet; overload;
 
-///  <summary>Создает набор данных и возвращает интерфейс IDataSet для управления им.</summary>
-///  <param name="AFieldDefs">Описание полей набора данных.</param>
-///  <remarks>Метод создает набор данных с указанными полями. Поля задаются
-///  тремя идущими подряд значениями Имя, Тип
+///  <summary>РЎРѕР·РґР°РµС‚ РЅР°Р±РѕСЂ РґР°РЅРЅС‹С… Рё РІРѕР·РІСЂР°С‰Р°РµС‚ РёРЅС‚РµСЂС„РµР№СЃ IDataSet РґР»СЏ СѓРїСЂР°РІР»РµРЅРёСЏ РёРј.</summary>
+///  <param name="AFieldDefs">РћРїРёСЃР°РЅРёРµ РїРѕР»РµР№ РЅР°Р±РѕСЂР° РґР°РЅРЅС‹С….</param>
+///  <remarks>РњРµС‚РѕРґ СЃРѕР·РґР°РµС‚ РЅР°Р±РѕСЂ РґР°РЅРЅС‹С… СЃ СѓРєР°Р·Р°РЅРЅС‹РјРё РїРѕР»СЏРјРё. РџРѕР»СЏ Р·Р°РґР°СЋС‚СЃСЏ
+///  С‚СЂРµРјСЏ РёРґСѓС‰РёРјРё РїРѕРґСЂСЏРґ Р·РЅР°С‡РµРЅРёСЏРјРё РРјСЏ, РўРёРї
 ///  (<see cref="Loodsman.Infrastructure.Types|TFieldType">TFieldType</see>),
-///  Длина (только для типов, которым она нужна, для остальных <c>0</c>).</remarks>
+///  Р”Р»РёРЅР° (С‚РѕР»СЊРєРѕ РґР»СЏ С‚РёРїРѕРІ, РєРѕС‚РѕСЂС‹Рј РѕРЅР° РЅСѓР¶РЅР°, РґР»СЏ РѕСЃС‚Р°Р»СЊРЅС‹С… <c>0</c>).</remarks>
 function CreateDataSet(const AFieldDefs: array of const): IDataSet; overload;
 
 implementation

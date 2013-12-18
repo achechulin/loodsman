@@ -1,4 +1,4 @@
-unit LinkedObjects;
+п»їunit LinkedObjects;
 
 interface
 
@@ -66,7 +66,7 @@ begin
     begin
         LText := GetValue(LDataSet, '_PRODUCT', '');
         if GetValue(LDataSet, '_VERSION', '') <> '' then
-            LText := LText + ', версия ' + GetValue(LDataSet, '_VERSION', '');
+            LText := LText + ', РІРµСЂСЃРёСЏ ' + GetValue(LDataSet, '_VERSION', '');
         ListLinkedObjects.AddItem(LText, nil);
         LDataSet.Next;
     end;
@@ -81,7 +81,7 @@ begin
 
     EditObject.Text := FPluginCall.stProduct;
     if FPluginCall.stVersion <> '' then
-        EditObject.Text := EditObject.Text + ', версия ' + FPluginCall.stVersion;
+        EditObject.Text := EditObject.Text + ', РІРµСЂСЃРёСЏ ' + FPluginCall.stVersion;
 
     LDataSet := FPluginCall.GetDataSet('GetInfoAboutType',
         VarArrayOf([FPluginCall.stType, 11]));

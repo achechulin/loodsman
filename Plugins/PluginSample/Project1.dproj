@@ -27,7 +27,6 @@
 			<DCC_UnitSearchPath>.\..\..\Common;.\..\..\System;.\..\..\Loodsman;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
 			<DCC_ExeOutput>$(ProgramFiles)\ASCON\Loodsman\Client</DCC_ExeOutput>
 			<DCC_DcuOutput>.\$(Config)</DCC_DcuOutput>
-			<DCC_UnitAlias>$(DCC_UnitAlias)</DCC_UnitAlias>
 			<DCC_DependencyCheckOutputName>Project1.pgi</DCC_DependencyCheckOutputName>
 			<GenDll>true</GenDll>
 			<DCC_ImageBase>00400000</DCC_ImageBase>

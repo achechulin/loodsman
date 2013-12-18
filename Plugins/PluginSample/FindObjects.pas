@@ -1,4 +1,4 @@
-unit FindObjects;
+п»їunit FindObjects;
 
 interface
 
@@ -53,22 +53,22 @@ begin
 
     ListFoundObjects.Clear();
 
-    LAttrConditions := 'Наименование'#2'Наименование LIKE ' + QuotedStr('Крепление%')
-        + #1'Формат'#2'Формат = ' + QuotedStr('А4');
+    LAttrConditions := 'РќР°РёРјРµРЅРѕРІР°РЅРёРµ'#2'РќР°РёРјРµРЅРѕРІР°РЅРёРµ LIKE ' + QuotedStr('РљСЂРµРїР»РµРЅРёРµ%')
+        + #1'Р¤РѕСЂРјР°С‚'#2'Р¤РѕСЂРјР°С‚ = ' + QuotedStr('Рђ4');
 
     LDataSet := FPluginCall.GetDataSet('FindObjects',
         VarArrayOf([
-        '',             // Список типов
-        '',             // Шаблон поиска по ключевому атрибуту
-        '',             // Шаблон поиска по версии
-        '',             // Список состояний
-        LAttrConditions,// Шаблон поиска по атрибутам
+        '',             // РЎРїРёСЃРѕРє С‚РёРїРѕРІ
+        '',             // РЁР°Р±Р»РѕРЅ РїРѕРёСЃРєР° РїРѕ РєР»СЋС‡РµРІРѕРјСѓ Р°С‚СЂРёР±СѓС‚Сѓ
+        '',             // РЁР°Р±Р»РѕРЅ РїРѕРёСЃРєР° РїРѕ РІРµСЂСЃРёРё
+        '',             // РЎРїРёСЃРѕРє СЃРѕСЃС‚РѕСЏРЅРёР№
+        LAttrConditions,// РЁР°Р±Р»РѕРЅ РїРѕРёСЃРєР° РїРѕ Р°С‚СЂРёР±СѓС‚Р°Рј
         '', '']));
     while not LDataSet.Eof do
     begin
         LText := GetValue(LDataSet, '_PRODUCT', '');
         if GetValue(LDataSet, '_VERSION', '') <> '' then
-            LText := LText + ', версия ' + GetValue(LDataSet, '_VERSION', '');
+            LText := LText + ', РІРµСЂСЃРёСЏ ' + GetValue(LDataSet, '_VERSION', '');
         ListFoundObjects.AddItem(LText, nil);
         LDataSet.Next;
     end;

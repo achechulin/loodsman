@@ -1,4 +1,4 @@
-// This Source Code Form is subject to the terms of the Mozilla Public
+п»ї// This Source Code Form is subject to the terms of the Mozilla Public
 // License, v. 2.0. If a copy of the MPL was not distributed with this file,
 // You can obtain one at http://mozilla.org/MPL/2.0/
 unit Loodsman.Infrastructure.Types;
@@ -88,13 +88,13 @@ type
         APDMVersion: PWorkflowVersionData;
         AUserData: OleVariant): OleVariant; stdcall;
 
-    /// <summary>Класс исключения при ошибках в работе с сервером приложений, 
-    /// в том числе и при ошибках чтения конфигурации.</summary>
+    /// <summary>РљР»Р°СЃСЃ РёСЃРєР»СЋС‡РµРЅРёСЏ РїСЂРё РѕС€РёР±РєР°С… РІ СЂР°Р±РѕС‚Рµ СЃ СЃРµСЂРІРµСЂРѕРј РїСЂРёР»РѕР¶РµРЅРёР№, 
+    /// РІ С‚РѕРј С‡РёСЃР»Рµ Рё РїСЂРё РѕС€РёР±РєР°С… С‡С‚РµРЅРёСЏ РєРѕРЅС„РёРіСѓСЂР°С†РёРё.</summary>
     EServerException = class(Exception)
     end;
 
-    /// <summary>Интерфейс подключения к серверу приложений. 
-    /// Не является частью API ЛОЦМАН:PLM.</summary>
+    /// <summary>РРЅС‚РµСЂС„РµР№СЃ РїРѕРґРєР»СЋС‡РµРЅРёСЏ Рє СЃРµСЂРІРµСЂСѓ РїСЂРёР»РѕР¶РµРЅРёР№. 
+    /// РќРµ СЏРІР»СЏРµС‚СЃСЏ С‡Р°СЃС‚СЊСЋ API Р›РћР¦РњРђРќ:PLM.</summary>
     IRemoteConnection = interface(IInterface)
         ['{0FBADFEF-7975-4C8E-8CC8-7D5323187F5F}']
         function GetAppServer: Variant;
@@ -136,7 +136,7 @@ uses
     Variants;
 
 resourcestring
-    SRequiredFieldNotFound = 'Обязательное поле [%s] не найдено в наборе данных';
+    SRequiredFieldNotFound = 'РћР±СЏР·Р°С‚РµР»СЊРЅРѕРµ РїРѕР»Рµ [%s] РЅРµ РЅР°Р№РґРµРЅРѕ РІ РЅР°Р±РѕСЂРµ РґР°РЅРЅС‹С…';
 
 function GetValue(const ADataSet: IDataSet; const AFieldName: String; const
     ADefault: Variant): Variant;

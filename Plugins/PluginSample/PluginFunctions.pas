@@ -1,4 +1,4 @@
-unit PluginFunctions;
+п»їunit PluginFunctions;
 
 interface
 
@@ -25,15 +25,15 @@ begin
     begin
         LMenuItem := AValue;
 
-        StrLCopy(LMenuItem.stMenu, 'BEFORE_MI_TOOLS#Мои плагины#Тестовый#Список проектов', SizeOf(LMenuItem.stMenu) - 1);
+        StrLCopy(LMenuItem.stMenu, 'BEFORE_MI_TOOLS#РњРѕРё РїР»Р°РіРёРЅС‹#РўРµСЃС‚РѕРІС‹Р№#РЎРїРёСЃРѕРє РїСЂРѕРµРєС‚РѕРІ', SizeOf(LMenuItem.stMenu) - 1);
         StrLCopy(LMenuItem.stFunction, 'ProjectList', SizeOf(LMenuItem.stFunction) - 1);
         Inc(LMenuItem);
 
-        StrLCopy(LMenuItem.stMenu, 'BEFORE_MI_TOOLS#Мои плагины#Тестовый#Состав', SizeOf(LMenuItem.stMenu) - 1);
+        StrLCopy(LMenuItem.stMenu, 'BEFORE_MI_TOOLS#РњРѕРё РїР»Р°РіРёРЅС‹#РўРµСЃС‚РѕРІС‹Р№#РЎРѕСЃС‚Р°РІ', SizeOf(LMenuItem.stMenu) - 1);
         StrLCopy(LMenuItem.stFunction, 'LinkedFast', SizeOf(LMenuItem.stFunction) - 1);
         Inc(LMenuItem);
 
-        StrLCopy(LMenuItem.stMenu, 'BEFORE_MI_TOOLS#Мои плагины#Тестовый#Найти', SizeOf(LMenuItem.stMenu) - 1);
+        StrLCopy(LMenuItem.stMenu, 'BEFORE_MI_TOOLS#РњРѕРё РїР»Р°РіРёРЅС‹#РўРµСЃС‚РѕРІС‹Р№#РќР°Р№С‚Рё', SizeOf(LMenuItem.stMenu) - 1);
         StrLCopy(LMenuItem.stFunction, 'FindObj', SizeOf(LMenuItem.stFunction) - 1);
         Inc(LMenuItem);
     end;
@@ -55,7 +55,7 @@ begin
 
         if LFuncName = 'LinkedFast' then
         begin
-            Result := APluginCall.stType <> 'Документ';
+            Result := APluginCall.stType <> 'Р”РѕРєСѓРјРµРЅС‚';
         end;
 
         if LFuncName = 'FindObj' then
@@ -85,7 +85,7 @@ begin
                 + GetValue(LDataSet, '_PRODUCT', '');
             LDataSet.Next;
         end;
-        Application.MessageBox(PChar(LProjNames), 'Результат', MB_OK or MB_ICONINFORMATION);
+        Application.MessageBox(PChar(LProjNames), 'Р РµР·СѓР»СЊС‚Р°С‚', MB_OK or MB_ICONINFORMATION);
     except
         on E: Exception do
         begin
