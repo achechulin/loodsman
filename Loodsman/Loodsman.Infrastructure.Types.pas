@@ -27,11 +27,11 @@ const
 
 type
     TAccessLevel = (alNoAccess, alRead, alReadWrite, alAdministration);
-    TAccessMethod = (amIntegrated, amPassword, amPassword2, amNone, amUnknown);
     TAttributeType = (atString, atInteger, atFloat, atDateTime, atText = 5, atImage = 6);
     TCardControlType = (cctEdit, cctNumEdit, cctNumMeasuredEdit, cctDate, cctTime,
         cctText, cctImage, cctLabel, cctBevel);
     TConnectionType = (ctDCOM, ctSocket, ctWeb);
+    TDatabaseAuth = (amWindows, amSqlServer, amSqlServerSaved, amInaccessible, amUnknown);
     TLinkDirection = (ldAny, ldForwardOnly, ldBackwardOnly = -1);
     TLinkKind = (lkVertical, lkHorizontal);
     TLinkQuantity = (lqNone, lqParent, lqChild, lqAlways);
@@ -98,6 +98,7 @@ type
     IRemoteConnection = interface(IInterface)
         ['{0FBADFEF-7975-4C8E-8CC8-7D5323187F5F}']
         function GetAppServer: Variant;
+        function GetAppServerWF: Variant;
         function GetConnected: Boolean;
         function GetConnectedWF: Boolean;
         function GetCurrentBase: String;
@@ -114,6 +115,7 @@ type
         procedure SetCurrentBase(const Value: String);
         procedure SetCurrentCheckOutID(Value: Integer);
         property AppServer: Variant read GetAppServer;
+        property AppServerWF: Variant read GetAppServerWF;
         property Connected: Boolean read GetConnected write SetConnected;
         property ConnectedWF: Boolean read GetConnectedWF write SetConnectedWF;
         property CurrentBase: String read GetCurrentBase write SetCurrentBase;
