@@ -327,23 +327,26 @@ begin
         end;
     end;
 
-    // Для того, чтобы методы сервера приложений Workflow могли получать
-    // информация из БД Лоцмана (например, для объектов автоопераций),
-    // необходимо подключить базу Workflow к базе Лоцмана
-
-    LDatabaseAuth := amWindows;
-    LNewPassword := False;
-    LSavePassword := True;
-    if FDBAuthList <> nil then
-        GetBaseAuthParamsWithUI(FDBAuthList, ABase, LDatabaseAuth, LUserName, LPassword, LNewPassword, LSavePassword);
-
-    RunMethod('WFConnectToDb', [ABase, LUserName, LPassword]);
-
-    if LNewPassword then
+    if ServerVersion < CAppServerV10 then
     begin
-        SetBaseAuthParams(FDBAuthList, ABase, LDatabaseAuth, LUserName, LPassword);
-        if LSavePassword then
-            SetDBAuthList(FDBAuthList);
+        // Для того, чтобы методы сервера приложений Workflow могли получать
+        // информация из БД Лоцмана (например, для объектов автоопераций),
+        // необходимо подключить базу Workflow к базе Лоцмана
+
+        LDatabaseAuth := amWindows;
+        LNewPassword := False;
+        LSavePassword := True;
+        if FDBAuthList <> nil then
+            GetBaseAuthParamsWithUI(FDBAuthList, ABase, LDatabaseAuth, LUserName, LPassword, LNewPassword, LSavePassword);
+
+        RunMethod('WFConnectToDb', [ABase, LUserName, LPassword]);
+
+        if LNewPassword then
+        begin
+            SetBaseAuthParams(FDBAuthList, ABase, LDatabaseAuth, LUserName, LPassword);
+            if LSavePassword then
+                SetDBAuthList(FDBAuthList);
+        end;
     end;
 end;
 
