@@ -19,6 +19,8 @@ type
         procedure TestFreeConnections;
         procedure TestConnected;
         procedure TestServerNameAndVersion;
+        procedure TestSocketHostConnection;
+        procedure TestSocketIPAddrConnection;
         procedure TestCurrentBase;
         procedure TestCurrentCheckOut;
         procedure TestAppServer;
@@ -31,6 +33,7 @@ uses
 
 const
     CTestServerName = 'localhost';
+    CTestServerIPAddr = '127.0.0.1';
     CTestBase1 = 'ДемоМашиностроение';
     CTestBase2 = 'Рабочая';
     CTestUser = 'semeng';
@@ -169,6 +172,46 @@ begin
     CheckEquals(LConnection.ServerVersion, LServerVersion);
 
     CheckEquals(CTestServerName, LConnection.ServerName);
+
+    OverrideAppServerList('');
+    FreeConnections();
+    FreeResources();
+end;
+
+procedure TTestConnection.TestSocketHostConnection;
+var
+    LConnection: IRemoteConnection;
+    LServerVersion: Integer;
+begin
+    OverrideAppServerList('ConnectionType=1|Host=' + CTestServerName);
+
+    LConnection := GetLoodsmanConnection();
+    Check(LConnection <> nil);
+
+    LServerVersion := StrToInt(LConnection.RunMethod('ApplicationVersion', []));
+    CheckEquals(LConnection.ServerVersion, LServerVersion);
+
+    CheckEquals(CTestServerName, LConnection.ServerName);
+
+    OverrideAppServerList('');
+    FreeConnections();
+    FreeResources();
+end;
+
+procedure TTestConnection.TestSocketIPAddrConnection;
+var
+    LConnection: IRemoteConnection;
+    LServerVersion: Integer;
+begin
+    OverrideAppServerList('ConnectionType=1|Host=' + CTestServerIPAddr);
+
+    LConnection := GetLoodsmanConnection();
+    Check(LConnection <> nil);
+
+    LServerVersion := StrToInt(LConnection.RunMethod('ApplicationVersion', []));
+    CheckEquals(LConnection.ServerVersion, LServerVersion);
+
+    CheckEquals(CTestServerIPAddr, LConnection.ServerName);
 
     OverrideAppServerList('');
     FreeConnections();

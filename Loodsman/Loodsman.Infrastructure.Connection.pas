@@ -751,7 +751,12 @@ begin
         if FConnection is TDCOMConnection then
             Result := TDCOMConnection(FConnection).ComputerName
         else if FConnection is TSocketConnection then
-            Result := TSocketConnection(FConnection).Address
+        begin
+            if TSocketConnection(FConnection).Address <> '' then
+                Result := TSocketConnection(FConnection).Address
+            else
+                Result := TSocketConnection(FConnection).Host;
+        end
         else if FConnection is TWebConnection then
             Result := TWebConnection(FConnection).URL;
     end;
@@ -802,6 +807,18 @@ var
     LProxy: String;
     LUserName: String;
     LPassword: String;
+
+    function IsIPAddress(const Value: String): Boolean;
+    var
+        i: Integer;
+    begin
+        for i := 1 to Length(Value) do
+        begin
+            if not CharInSet(Value[i], ['0'..'9', '.']) then
+                Exit(False);
+        end;
+        Exit(True);
+    end;
 begin
     Result := nil;
 
@@ -818,7 +835,10 @@ begin
         ctSocket:
             begin
                 Result := TSocketConnection.Create(nil);
-                TSocketConnection(Result).Address := LServerName;
+                if IsIPAddress(LServerName) then
+                    TSocketConnection(Result).Address := LServerName
+                else
+                    TSocketConnection(Result).Host := LServerName;
                 TSocketConnection(Result).Port := LPort;
             end;
 
