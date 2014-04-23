@@ -5,6 +5,7 @@ interface
 uses
     SysUtils, Loodsman_TLB;
 
+    function GetPluginInfo(AParam: Integer; AValue: Pointer): Integer; stdcall;
     function InitUserDLLCom(AValue: Pointer): Integer; stdcall;
     function PgiCheckMenuItemCom(AFunction: PAnsiChar; APluginCall: IPluginCall): Boolean; stdcall;
     procedure ProjectList(APluginCall: IPluginCall); stdcall;
@@ -16,6 +17,11 @@ implementation
 uses
     Windows, Variants, Forms, Loodsman.Infrastructure.Types,
     Loodsman.Infrastructure.PluginUtils, LinkedObjects, FindObjects;
+
+function GetPluginInfo(AParam: Integer; AValue: Pointer): Integer;
+begin
+    Result := 0;
+end;
 
 function InitUserDLLCom(AValue: Pointer): Integer;
 var

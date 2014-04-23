@@ -10,7 +10,7 @@ uses
   LinkedObjects in 'LinkedObjects.pas' {LinkedObjectsDialog},
   FindObjects in 'FindObjects.pas' {FindObjectsDialog};
 
-exports InitUserDLLCom, PgiCheckMenuItemCom, ProjectList, LinkedFast, FindObj;
+exports InitUserDLLCom, PgiCheckMenuItemCom, ProjectList, LinkedFast, FindObj{, GetPluginInfo};
 
 begin
 end.
