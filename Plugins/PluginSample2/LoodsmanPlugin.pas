@@ -65,8 +65,6 @@ type
 
     procedure UnhookApplication(const AHandle: THandle);
 
-    function GetPluginInfo(AParam: Integer; AValue: Pointer): Integer; stdcall;
-
 implementation
 
 uses
@@ -127,11 +125,6 @@ begin
     LHook := LongInt(@ApplicationWndProc);
     if GetWindowLong(AHandle, GWL_WNDPROC) = LHook then
         SetWindowLong(AHandle, GWL_WNDPROC, LongInt(OldApplicationWndProc));
-end;
-
-function GetPluginInfo(AParam: Integer; AValue: Pointer): Integer;
-begin
-    Result := 0;
 end;
 
 end.
