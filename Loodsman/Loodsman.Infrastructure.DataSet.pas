@@ -27,7 +27,7 @@ implementation
 
 uses
     Classes, ComObj, Variants, DB, DBCommon, DBClient, DSIntf,
-    Loodsman.Infrastructure.Resources;
+    DataProvider_TLB, Loodsman.Infrastructure.Resources;
 
 type
     TFieldIndex = class(TStringList)
@@ -44,7 +44,7 @@ type
         procedure InternalInitFieldDefs; override;
     end;
 
-    TDataSetObject = class(TAutoIntfObject, IDataSet)
+    TDataSetObject = class(TAutoIntfObject, IDataSetV11, IDataSetV13)
     private
         FDataSet: TCompatDataSet;
         FIndex: TFieldIndex;
@@ -74,6 +74,8 @@ type
         function IsEmpty: WordBool; safecall;
         procedure Last; safecall;
         function Locate(const KeyFields: WideString; KeyValues: OleVariant;
+            CaseSensitive: WordBool; PartialKey: WordBool): WordBool; safecall;
+        function Locate2(const KeyFields: WideString; KeyValues: OleVariant;
             CaseSensitive: WordBool; PartialKey: WordBool): WordBool; safecall;
         function MoveBy(Distance: Integer): Integer; safecall;
         procedure Next; safecall;
@@ -260,7 +262,7 @@ end;
 }
 constructor TDataSetObject.Create;
 begin
-    inherited Create(GetLoodsmanTypeLib(), IID_IDataSet);
+    inherited Create(GetLoodsmanTypeLib(), IID_IDataSetV13);
     FDataSet := TCompatDataSet.Create(nil);
     FIndex := TFieldIndex.Create();
 end;
@@ -425,6 +427,17 @@ begin
 end;
 
 function TDataSetObject.Locate(const KeyFields: WideString; KeyValues:
+    OleVariant; CaseSensitive: WordBool; PartialKey: WordBool): WordBool;
+var
+    LOptions: TLocateOptions;
+begin
+    LOptions := [];
+    if not CaseSensitive then Include(LOptions, loCaseInsensitive);
+    if PartialKey then Include(LOptions, loPartialKey);
+    Result := FDataSet.Locate(KeyFields, KeyValues, LOptions);
+end;
+
+function TDataSetObject.Locate2(const KeyFields: WideString; KeyValues:
     OleVariant; CaseSensitive: WordBool; PartialKey: WordBool): WordBool;
 var
     LOptions: TLocateOptions;
