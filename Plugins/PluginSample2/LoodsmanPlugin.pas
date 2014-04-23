@@ -76,7 +76,7 @@ var
     OldApplicationWndProc: TFNWndProc;
 
 resourcestring
-    SRequiredFieldNotFound = 'Обязательное поле [%s] не найдено в наборе данных';
+    SRequiredFieldNotFound = 'РћР±СЏР·Р°С‚РµР»СЊРЅРѕРµ РїРѕР»Рµ [%s] РЅРµ РЅР°Р№РґРµРЅРѕ РІ РЅР°Р±РѕСЂРµ РґР°РЅРЅС‹С…';
 
 function GetValue(const ADataSet: IDataSet; const AFieldName: String; const
     ADefault: Variant): Variant;
