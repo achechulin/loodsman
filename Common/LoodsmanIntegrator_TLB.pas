@@ -1,4 +1,4 @@
-unit IntegratorObject_TLB;
+unit LoodsmanIntegrator_TLB;
 
 // ************************************************************************ //
 // WARNING                                                                    
@@ -11,18 +11,18 @@ unit IntegratorObject_TLB;
 // manual modifications will be lost.                                         
 // ************************************************************************ //
 
-// $Rev: 17244 $
-// File generated on 13.09.2010 10:21:16 from Type Library described below.
+// $Rev: 34747 $
+// File generated on 23.04.2014 10:33:48 from Type Library described below.
 
 // ************************************************************************  //
-// Type Lib: C:\Program Files\ASCON\Loodsman\Client\Integrator\LoodsmanIntegrator.dll (1)
+// Type Lib: 1.tlb (1)
 // LIBID: {4BF79394-42C3-4459-BC49-E1F1CD44AE6C}
 // LCID: 0
 // Helpfile: 
 // HelpString: IntegratorObject Library
 // DepndLst: 
-//   (1) v2.0 stdole, (C:\WINDOWS\system32\STDOLE2.TLB)
-//   (2) v1.0 CommonModel, (C:\WINDOWS\system32\CommonModel.dll)
+//   (1) v2.0 stdole, (C:\Windows\SysWOW64\stdole2.tlb)
+//   (2) v1.0 CommonModel, (C:\Program Files (x86)\Common Files\ASCON Shared\Loodsman\CommonModel.dll)
 // ************************************************************************ //
 {$TYPEDADDRESS OFF} // Unit must be compiled without type-checked pointers. 
 {$WARN SYMBOL_PLATFORM OFF}
@@ -44,10 +44,10 @@ uses Windows, ActiveX, Classes, CommonModel_TLB, Graphics, OleServer, Variants;
 // *********************************************************************//
 const
   // TypeLibrary Major and minor versions
-  IntegratorObjectMajorVersion = 1;
-  IntegratorObjectMinorVersion = 0;
+  LoodsmanIntegratorMajorVersion = 1;
+  LoodsmanIntegratorMinorVersion = 0;
 
-  LIBID_IntegratorObject: TGUID = '{4BF79394-42C3-4459-BC49-E1F1CD44AE6C}';
+  LIBID_LoodsmanIntegrator: TGUID = '{4BF79394-42C3-4459-BC49-E1F1CD44AE6C}';
 
   IID_IIntegrator: TGUID = '{021331C0-91F0-4808-8C89-8DDD57584318}';
   DIID_IIntegratorEvent: TGUID = '{D51EFAE2-78BF-412B-AF4D-AA686A126ED1}';
@@ -73,12 +73,9 @@ type
 // Forward declaration of types defined in TypeLibrary                    
 // *********************************************************************//
   IIntegrator = interface;
-  IIntegratorDisp = dispinterface;
   IIntegratorEvent = dispinterface;
   IProxyCall = interface;
-  IProxyCallDisp = dispinterface;
   IInterfaceExtractor = interface;
-  IInterfaceExtractorDisp = dispinterface;
 
 // *********************************************************************//
 // Declaration of CoClasses defined in Type Library                       
@@ -87,6 +84,12 @@ type
   ProxyCall = IProxyCall;
   Integrator = IIntegrator;
   InterfaceExtractor = IInterfaceExtractor;
+
+
+// *********************************************************************//
+// Declaration of structures, unions and aliases.                         
+// *********************************************************************//
+  POleVariant1 = ^OleVariant; {*}
 
 
 // *********************************************************************//
@@ -111,30 +114,15 @@ type
     procedure Set_SilentMode(Value: WordBool); safecall;
     function GetAddress: Integer; safecall;
     procedure SetMainWindowHandle(AHandle: Integer); safecall;
+    function Attach(var Provider: OleVariant): HResult; safecall;
+    function SafeConnect(const ConnectString: WideString; const DBName: WideString; 
+                         CheckOut: Integer; const UserName: WideString; const Password: WideString): HResult; safecall;
+    function SafeAttach(var Provider: OleVariant): HResult; safecall;
+    procedure DisplayDebugModel(const stFileName: WideString); safecall;
+    function Get_CustomFlags: LongWord; safecall;
+    procedure Set_CustomFlags(Value: LongWord); safecall;
     property SilentMode: WordBool read Get_SilentMode write Set_SilentMode;
-  end;
-
-// *********************************************************************//
-// DispIntf:  IIntegratorDisp
-// Flags:     (4416) Dual OleAutomation Dispatchable
-// GUID:      {021331C0-91F0-4808-8C89-8DDD57584318}
-// *********************************************************************//
-  IIntegratorDisp = dispinterface
-    ['{021331C0-91F0-4808-8C89-8DDD57584318}']
-    function Connect(const ConnectString: WideString; const DBName: WideString; CheckOut: Integer; 
-                     const UserName: WideString; const Password: WideString): HResult; dispid 1;
-    function ReadDocument(IdObj: Integer; IdDoc: Integer; const LinkType: WideString; 
-                          const FileName: WideString; const FullFilePath: WideString; 
-                          inParams: Integer; UseCase: Integer): OleVariant; dispid 6;
-    procedure LoadDocument(IdObj: Integer; IdDoc: Integer; const LinkType: WideString; 
-                           const FileName: WideString; const FullFilePath: WideString; 
-                           ShowTool: WordBool; UseCase: Integer); dispid 7;
-    procedure CreateDocument(IdObj: Integer; IdDoc: Integer; const LinkType: WideString; 
-                             const FileName: WideString; const FullFilePath: WideString; 
-                             UseCase: Integer); dispid 8;
-    property SilentMode: WordBool dispid 12;
-    function GetAddress: Integer; dispid 2;
-    procedure SetMainWindowHandle(AHandle: Integer); dispid 3;
+    property CustomFlags: LongWord read Get_CustomFlags write Set_CustomFlags;
   end;
 
 // *********************************************************************//
@@ -164,24 +152,15 @@ type
     function WriteLogModel(const Model: IModel): WordBool; safecall;
     function ShowDebugModel(const Msg: WideString; const Model: IModel): WordBool; safecall;
     function GetAppServer: OleVariant; safecall;
-  end;
-
-// *********************************************************************//
-// DispIntf:  IProxyCallDisp
-// Flags:     (4416) Dual OleAutomation Dispatchable
-// GUID:      {7F1410F9-9874-4A76-9846-F036703BB64A}
-// *********************************************************************//
-  IProxyCallDisp = dispinterface
-    ['{7F1410F9-9874-4A76-9846-F036703BB64A}']
-    function GetModel(const Mask: IModel): IModel; dispid 1;
-    function GetFile(IdDoc: Integer; const FileName: WideString; const FullFilePath: WideString): HResult; dispid 2;
-    procedure WriteLog(const Message: WideString); dispid 3;
-    function GetState: SYSINT; dispid 4;
-    procedure SetCurrentOperation(const stOperation: WideString); dispid 5;
-    function GetAddress: Integer; dispid 6;
-    function WriteLogModel(const Model: IModel): WordBool; dispid 7;
-    function ShowDebugModel(const Msg: WideString; const Model: IModel): WordBool; dispid 8;
-    function GetAppServer: OleVariant; dispid 9;
+    function GetFileRequest(IdDoc: Integer; const FileName: WideString; 
+                            const FullFilePath: WideString): HResult; safecall;
+    function GetMainWindowHandle: Integer; safecall;
+    function GetUserName: WideString; safecall;
+    function GetPassword: WideString; safecall;
+    procedure ShowBaloonMessage(const sHeader: WideString; const sMessage: WideString; 
+                                inType: Integer; boError: WordBool); safecall;
+    function GetFileNoLockReadOnly(IdDoc: Integer; const FileName: WideString; 
+                                   const FullFilePath: WideString): HResult; safecall;
   end;
 
 // *********************************************************************//
@@ -193,17 +172,6 @@ type
     ['{90FF512B-44CA-494A-9A7D-0C79EA00A283}']
     function GetProxyCall(inAddress: Integer): IProxyCall; safecall;
     function GetIntegrator(inAddress: Integer): IIntegrator; safecall;
-  end;
-
-// *********************************************************************//
-// DispIntf:  IInterfaceExtractorDisp
-// Flags:     (4416) Dual OleAutomation Dispatchable
-// GUID:      {90FF512B-44CA-494A-9A7D-0C79EA00A283}
-// *********************************************************************//
-  IInterfaceExtractorDisp = dispinterface
-    ['{90FF512B-44CA-494A-9A7D-0C79EA00A283}']
-    function GetProxyCall(inAddress: Integer): IProxyCall; dispid 1;
-    function GetIntegrator(inAddress: Integer): IIntegrator; dispid 2;
   end;
 
 implementation

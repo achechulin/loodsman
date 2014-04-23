@@ -11,19 +11,19 @@ unit CommonModel_TLB;
 // manual modifications will be lost.                                         
 // ************************************************************************ //
 
-// $Rev: 17244 $
-// File generated on 13.09.2010 10:21:16 from Type Library described below.
+// $Rev: 34747 $
+// File generated on 23.04.2014 10:33:48 from Type Library described below.
 
 // ************************************************************************  //
-// Type Lib: C:\WINDOWS\system32\CommonModel.dll (1)
+// Type Lib: C:\Program Files (x86)\Common Files\ASCON Shared\Loodsman\CommonModel.dll (1)
 // LIBID: {04026FE3-4B59-4838-9C9D-7488D7562B52}
 // LCID: 0
 // Helpfile: 
 // HelpString: CommonModel Library
 // DepndLst: 
-//   (1) v2.0 stdole, (C:\WINDOWS\system32\STDOLE2.TLB)
+//   (1) v2.0 stdole, (C:\Windows\SysWOW64\stdole2.tlb)
 // Parent TypeLibrary:
-//   (0) v1.0 IntegratorObject, (C:\Program Files\ASCON\Loodsman\Client\Integrator\LoodsmanIntegrator.dll)
+//   (0) v1.0 LoodsmanIntegrator, (C:\Program Files (x86)\ASCON\Loodsman\Client\Integrator\LoodsmanIntegrator.dll)
 // ************************************************************************ //
 {$TYPEDADDRESS OFF} // Unit must be compiled without type-checked pointers. 
 {$WARN SYMBOL_PLATFORM OFF}
@@ -55,33 +55,34 @@ const
   CLASS_Model: TGUID = '{7FB90545-2732-4489-9C59-D6CEF94874F0}';
   IID_ImObject: TGUID = '{D3A546B5-0320-4F87-A396-7E782DFEE46E}';
   IID_ImLink: TGUID = '{904B549E-7294-469B-A949-52DFD70E1DF0}';
-  CLASS_mObject: TGUID = '{911A4CF6-2968-4576-A5D5-9F0C80AE509B}';
+  IID_ImBLOBContainer: TGUID = '{A010D370-3900-4695-A61B-3E94FD37055E}';
   CLASS_mLink: TGUID = '{C4068B01-3987-40DF-895D-141D98754644}';
   CLASS_mProperty: TGUID = '{0589AD2C-2334-42FE-97ED-B39E83C660CA}';
+  IID_ImBLOB: TGUID = '{4D35E5CC-76D0-4781-87A7-6533E15D90E6}';
+  CLASS_mBLOB: TGUID = '{1114A822-9C53-4E78-852A-C2293A8D83D5}';
+  CLASS_mObject: TGUID = '{911A4CF6-2968-4576-A5D5-9F0C80AE509B}';
 type
 
 // *********************************************************************//
 // Forward declaration of types defined in TypeLibrary                    
 // *********************************************************************//
   ImProperable = interface;
-  ImProperableDisp = dispinterface;
   IModel = interface;
-  IModelDisp = dispinterface;
   ImProperty = interface;
-  ImPropertyDisp = dispinterface;
   ImObject = interface;
-  ImObjectDisp = dispinterface;
   ImLink = interface;
-  ImLinkDisp = dispinterface;
+  ImBLOBContainer = interface;
+  ImBLOB = interface;
 
 // *********************************************************************//
 // Declaration of CoClasses defined in Type Library                       
 // (NOTE: Here we map each CoClass to its Default Interface)              
 // *********************************************************************//
   Model = IModel;
-  mObject = ImObject;
   mLink = ImLink;
   mProperty = ImProperty;
+  mBLOB = ImBLOB;
+  mObject = ImObject;
 
 
 // *********************************************************************//
@@ -109,22 +110,6 @@ type
   end;
 
 // *********************************************************************//
-// DispIntf:  ImProperableDisp
-// Flags:     (4416) Dual OleAutomation Dispatchable
-// GUID:      {BF2FF6C9-4411-4E18-BD33-E0038255EBD4}
-// *********************************************************************//
-  ImProperableDisp = dispinterface
-    ['{BF2FF6C9-4411-4E18-BD33-E0038255EBD4}']
-    property PropCount: Integer readonly dispid 101;
-    function AddProp(const Name: WideString; const Value: WideString): ImProperty; dispid 102;
-    property Props[Index: Integer]: ImProperty readonly dispid 103;
-    function FindProp(const Name: WideString): ImProperty; dispid 104;
-    function FindPropIdx(const Name: WideString): Integer; dispid 105;
-    function GetPropValue(const Name: WideString): WideString; dispid 106;
-    function SetPropValue(const Name: WideString; const Value: WideString): ImProperty; dispid 107;
-  end;
-
-// *********************************************************************//
 // Interface: IModel
 // Flags:     (4416) Dual OleAutomation Dispatchable
 // GUID:      {1D21C421-420D-4462-9029-0E4D83E087AB}
@@ -139,32 +124,9 @@ type
     function SaveVariant: OleVariant; safecall;
     procedure LoadVariant(var Data: OleVariant); safecall;
     procedure Clear; safecall;
+    procedure SaveXML(const FileName: WideString); safecall;
     property ObjCount: Integer read Get_ObjCount;
     property Objs[Index: Integer]: ImObject read Get_Objs;
-  end;
-
-// *********************************************************************//
-// DispIntf:  IModelDisp
-// Flags:     (4416) Dual OleAutomation Dispatchable
-// GUID:      {1D21C421-420D-4462-9029-0E4D83E087AB}
-// *********************************************************************//
-  IModelDisp = dispinterface
-    ['{1D21C421-420D-4462-9029-0E4D83E087AB}']
-    property ObjCount: Integer readonly dispid 1;
-    property Objs[Index: Integer]: ImObject readonly dispid 2;
-    function AddObj: ImObject; dispid 3;
-    procedure Load(const FileName: WideString); dispid 4;
-    procedure Save(const FileName: WideString); dispid 5;
-    function SaveVariant: OleVariant; dispid 6;
-    procedure LoadVariant(var Data: OleVariant); dispid 7;
-    procedure Clear; dispid 8;
-    property PropCount: Integer readonly dispid 101;
-    function AddProp(const Name: WideString; const Value: WideString): ImProperty; dispid 102;
-    property Props[Index: Integer]: ImProperty readonly dispid 103;
-    function FindProp(const Name: WideString): ImProperty; dispid 104;
-    function FindPropIdx(const Name: WideString): Integer; dispid 105;
-    function GetPropValue(const Name: WideString): WideString; dispid 106;
-    function SetPropValue(const Name: WideString; const Value: WideString): ImProperty; dispid 107;
   end;
 
 // *********************************************************************//
@@ -196,22 +158,6 @@ type
   end;
 
 // *********************************************************************//
-// DispIntf:  ImPropertyDisp
-// Flags:     (4416) Dual OleAutomation Dispatchable
-// GUID:      {D1BFB2A4-945F-4CBE-9C4D-17B2CB29FE04}
-// *********************************************************************//
-  ImPropertyDisp = dispinterface
-    ['{D1BFB2A4-945F-4CBE-9C4D-17B2CB29FE04}']
-    property Name: WideString dispid 1;
-    property Value: WideString dispid 2;
-    property ReadOnly: WordBool dispid 3;
-    property Mandatory: WordBool dispid 4;
-    property IDUnit: WideString dispid 5;
-    property IDNature: WideString dispid 6;
-    procedure Delete; dispid 7;
-  end;
-
-// *********************************************************************//
 // Interface: ImObject
 // Flags:     (4416) Dual OleAutomation Dispatchable
 // GUID:      {D3A546B5-0320-4F87-A396-7E782DFEE46E}
@@ -223,29 +169,12 @@ type
     function AddLink(const Child: ImObject): ImLink; safecall;
     procedure Delete; safecall;
     function GetIntObject: Integer; safecall;
+    function Get_ReverseLinkCount: Integer; safecall;
+    function Get_ReverseLinks(Index: Integer): ImLink; safecall;
     property LinkCount: Integer read Get_LinkCount;
     property Links[Index: Integer]: ImLink read Get_Links;
-  end;
-
-// *********************************************************************//
-// DispIntf:  ImObjectDisp
-// Flags:     (4416) Dual OleAutomation Dispatchable
-// GUID:      {D3A546B5-0320-4F87-A396-7E782DFEE46E}
-// *********************************************************************//
-  ImObjectDisp = dispinterface
-    ['{D3A546B5-0320-4F87-A396-7E782DFEE46E}']
-    property LinkCount: Integer readonly dispid 1;
-    property Links[Index: Integer]: ImLink readonly dispid 7;
-    function AddLink(const Child: ImObject): ImLink; dispid 8;
-    procedure Delete; dispid 2;
-    function GetIntObject: Integer; dispid 3;
-    property PropCount: Integer readonly dispid 101;
-    function AddProp(const Name: WideString; const Value: WideString): ImProperty; dispid 102;
-    property Props[Index: Integer]: ImProperty readonly dispid 103;
-    function FindProp(const Name: WideString): ImProperty; dispid 104;
-    function FindPropIdx(const Name: WideString): Integer; dispid 105;
-    function GetPropValue(const Name: WideString): WideString; dispid 106;
-    function SetPropValue(const Name: WideString; const Value: WideString): ImProperty; dispid 107;
+    property ReverseLinkCount: Integer read Get_ReverseLinkCount;
+    property ReverseLinks[Index: Integer]: ImLink read Get_ReverseLinks;
   end;
 
 // *********************************************************************//
@@ -263,22 +192,35 @@ type
   end;
 
 // *********************************************************************//
-// DispIntf:  ImLinkDisp
+// Interface: ImBLOBContainer
 // Flags:     (4416) Dual OleAutomation Dispatchable
-// GUID:      {904B549E-7294-469B-A949-52DFD70E1DF0}
+// GUID:      {A010D370-3900-4695-A61B-3E94FD37055E}
 // *********************************************************************//
-  ImLinkDisp = dispinterface
-    ['{904B549E-7294-469B-A949-52DFD70E1DF0}']
-    property Parent: ImObject readonly dispid 1;
-    property Child: ImObject readonly dispid 2;
-    procedure Delete; dispid 3;
-    property PropCount: Integer readonly dispid 101;
-    function AddProp(const Name: WideString; const Value: WideString): ImProperty; dispid 102;
-    property Props[Index: Integer]: ImProperty readonly dispid 103;
-    function FindProp(const Name: WideString): ImProperty; dispid 104;
-    function FindPropIdx(const Name: WideString): Integer; dispid 105;
-    function GetPropValue(const Name: WideString): WideString; dispid 106;
-    function SetPropValue(const Name: WideString; const Value: WideString): ImProperty; dispid 107;
+  ImBLOBContainer = interface(IDispatch)
+    ['{A010D370-3900-4695-A61B-3E94FD37055E}']
+    function AddBLOB(const Name: WideString; BLOBType: Integer; Value: OleVariant): ImBLOB; safecall;
+    function Get_BLOBCount: Integer; safecall;
+    function Get_BLOBS(Index: Integer): ImBLOB; safecall;
+    property BLOBCount: Integer read Get_BLOBCount;
+    property BLOBS[Index: Integer]: ImBLOB read Get_BLOBS;
+  end;
+
+// *********************************************************************//
+// Interface: ImBLOB
+// Flags:     (4416) Dual OleAutomation Dispatchable
+// GUID:      {4D35E5CC-76D0-4781-87A7-6533E15D90E6}
+// *********************************************************************//
+  ImBLOB = interface(IDispatch)
+    ['{4D35E5CC-76D0-4781-87A7-6533E15D90E6}']
+    function Get_Name: WideString; safecall;
+    procedure Set_Name(const Value: WideString); safecall;
+    function Get_Value: OleVariant; safecall;
+    procedure Set_Value(Value: OleVariant); safecall;
+    function Get_BLOBType: Integer; safecall;
+    procedure Set_BLOBType(Value: Integer); safecall;
+    property Name: WideString read Get_Name write Set_Name;
+    property Value: OleVariant read Get_Value write Set_Value;
+    property BLOBType: Integer read Get_BLOBType write Set_BLOBType;
   end;
 
 implementation

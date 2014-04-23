@@ -11,19 +11,17 @@ unit BOSimple_TLB;
 // manual modifications will be lost.                                         
 // ************************************************************************ //
 
-// $Rev: 17244 $
-// File generated on 01.02.2011 10:57:12 from Type Library described below.
+// $Rev: 34747 $
+// File generated on 22.04.2014 13:07:11 from Type Library described below.
 
 // ************************************************************************  //
-// Type Lib: BOSimple.DLL (1)
+// Type Lib: C:\Program Files (x86)\Common Files\ASCON Shared\BOSimple64.dll (1)
 // LIBID: {45276A6A-6A03-4BC0-B984-FB84C70BBCCF}
 // LCID: 0
 // Helpfile: 
 // HelpString: BOSimple Library
 // DepndLst: 
-//   (1) v2.0 stdole, (C:\WINDOWS\system32\STDOLE2.TLB)
-// Parent TypeLibrary:
-//   (0) v1.0 Loodsman, (Loodsman.tlb)
+//   (1) v2.0 stdole, (C:\Windows\system32\stdole2.tlb)
 // ************************************************************************ //
 {$TYPEDADDRESS OFF} // Unit must be compiled without type-checked pointers. 
 {$WARN SYMBOL_PLATFORM OFF}
@@ -32,7 +30,7 @@ unit BOSimple_TLB;
 {$ALIGN 4}
 interface
 
-uses Windows, ActiveX, Classes, Graphics, OleCtrls, OleServer, Variants;
+uses Windows, ActiveX, Variants;
   
 
 
@@ -67,31 +65,24 @@ const
   CLASS_BOResponse: TGUID = '{79059E91-42F5-4DD0-9A37-7BFC95C2E823}';
   IID_IBOKernel: TGUID = '{03F6492D-5155-4CF2-A372-65DD1403458B}';
   CLASS_BOKernel: TGUID = '{FE0C0722-1E0C-4174-A9BF-F637B7EF1244}';
+  IID_IBOQuery: TGUID = '{1F391262-7322-4806-8792-DFA83E15FCE9}';
+  CLASS_BOQuery: TGUID = '{802D6226-0030-4964-93E1-CEE4E1F32701}';
 type
 
 // *********************************************************************//
 // Forward declaration of types defined in TypeLibrary                    
 // *********************************************************************//
   IBOItem = interface;
-  IBOItemDisp = dispinterface;
   IBOObject = interface;
-  IBOObjectDisp = dispinterface;
   IBOAttribute = interface;
-  IBOAttributeDisp = dispinterface;
   IBOItemCollection = interface;
-  IBOItemCollectionDisp = dispinterface;
   IBOAttributeCollection = interface;
-  IBOAttributeCollectionDisp = dispinterface;
   IBOObjectCollection = interface;
-  IBOObjectCollectionDisp = dispinterface;
   IBORequest = interface;
-  IBORequestDisp = dispinterface;
   IBOResponse = interface;
-  IBOResponseDisp = dispinterface;
   IBOSimpleProvider = interface;
-  IBOSimpleProviderDisp = dispinterface;
   IBOKernel = interface;
-  IBOKernelDisp = dispinterface;
+  IBOQuery = interface;
 
 // *********************************************************************//
 // Declaration of CoClasses defined in Type Library                       
@@ -104,6 +95,7 @@ type
   BORequest = IBORequest;
   BOResponse = IBOResponse;
   BOKernel = IBOKernel;
+  BOQuery = IBOQuery;
 
 
 // *********************************************************************//
@@ -115,16 +107,6 @@ type
     ['{16D42597-F51E-46F8-A9D1-98D040DA5ED3}']
     function Get_XML: WideString; safecall;
     property XML: WideString read Get_XML;
-  end;
-
-// *********************************************************************//
-// DispIntf:  IBOItemDisp
-// Flags:     (4416) Dual OleAutomation Dispatchable
-// GUID:      {16D42597-F51E-46F8-A9D1-98D040DA5ED3}
-// *********************************************************************//
-  IBOItemDisp = dispinterface
-    ['{16D42597-F51E-46F8-A9D1-98D040DA5ED3}']
-    property XML: WideString readonly dispid 1610743808;
   end;
 
 // *********************************************************************//
@@ -142,28 +124,15 @@ type
     function Get_ClassID: WideString; safecall;
     procedure Set_ClassID(const Value: WideString); safecall;
     function Get_DisplayName: WideString; safecall;
+    function Get_Parent: IDispatch; safecall;
+    procedure Set_Parent(const Value: IDispatch); safecall;
     property Attributes: IBOAttributeCollection read Get_Attributes;
     property Attribute[const aName: WideString]: IBOAttribute read Get_Attribute;
     property Objects: IBOObjectCollection read Get_Objects;
     property ObjectID: WideString read Get_ObjectID write Set_ObjectID;
     property ClassID: WideString read Get_ClassID write Set_ClassID;
     property DisplayName: WideString read Get_DisplayName;
-  end;
-
-// *********************************************************************//
-// DispIntf:  IBOObjectDisp
-// Flags:     (4416) Dual OleAutomation Dispatchable
-// GUID:      {85299E3F-6D6B-430B-9CBE-72F28E128D0E}
-// *********************************************************************//
-  IBOObjectDisp = dispinterface
-    ['{85299E3F-6D6B-430B-9CBE-72F28E128D0E}']
-    property Attributes: IBOAttributeCollection readonly dispid 5;
-    property Attribute[const aName: WideString]: IBOAttribute readonly dispid 6;
-    property Objects: IBOObjectCollection readonly dispid 4;
-    property ObjectID: WideString dispid 1;
-    property ClassID: WideString dispid 3;
-    property DisplayName: WideString readonly dispid 2;
-    property XML: WideString readonly dispid 1610743808;
+    property Parent: IDispatch read Get_Parent write Set_Parent;
   end;
 
 // *********************************************************************//
@@ -186,6 +155,8 @@ type
     procedure Set_AsBoolean(Value: WordBool); safecall;
     function Get_Attributes: IBOAttributeCollection; safecall;
     function Get_Attribute(const aName: WideString): IBOAttribute; safecall;
+    function Get_Parent: IDispatch; safecall;
+    procedure Set_Parent(const Value: IDispatch); safecall;
     property Name: WideString read Get_Name;
     property Value: WideString read Get_Value write Set_Value;
     property AsString: WideString read Get_AsString write Set_AsString;
@@ -194,24 +165,7 @@ type
     property AsBoolean: WordBool read Get_AsBoolean write Set_AsBoolean;
     property Attributes: IBOAttributeCollection read Get_Attributes;
     property Attribute[const aName: WideString]: IBOAttribute read Get_Attribute;
-  end;
-
-// *********************************************************************//
-// DispIntf:  IBOAttributeDisp
-// Flags:     (4416) Dual OleAutomation Dispatchable
-// GUID:      {F262BEE6-DAA8-4EAB-958F-589253F8D3B3}
-// *********************************************************************//
-  IBOAttributeDisp = dispinterface
-    ['{F262BEE6-DAA8-4EAB-958F-589253F8D3B3}']
-    property Name: WideString readonly dispid 1;
-    property Value: WideString dispid 2;
-    property AsString: WideString dispid 4;
-    property AsFloat: Double dispid 5;
-    property AsInteger: Integer dispid 6;
-    property AsBoolean: WordBool dispid 7;
-    property Attributes: IBOAttributeCollection readonly dispid 3;
-    property Attribute[const aName: WideString]: IBOAttribute readonly dispid 8;
-    property XML: WideString readonly dispid 1610743808;
+    property Parent: IDispatch read Get_Parent write Set_Parent;
   end;
 
 // *********************************************************************//
@@ -230,19 +184,6 @@ type
   end;
 
 // *********************************************************************//
-// DispIntf:  IBOItemCollectionDisp
-// Flags:     (4416) Dual OleAutomation Dispatchable
-// GUID:      {231BE669-E7A5-4194-81B1-12F439570297}
-// *********************************************************************//
-  IBOItemCollectionDisp = dispinterface
-    ['{231BE669-E7A5-4194-81B1-12F439570297}']
-    property Count: Integer readonly dispid 1;
-    property XML: WideString readonly dispid 4;
-    procedure Clear; dispid 200;
-    procedure Delete(Index: Integer); dispid 205;
-  end;
-
-// *********************************************************************//
 // Interface: IBOAttributeCollection
 // Flags:     (4416) Dual OleAutomation Dispatchable
 // GUID:      {FE05BB59-5F48-435D-8B21-705CA58C0EE3}
@@ -258,30 +199,16 @@ type
     procedure Set_AutoAppend(Value: WordBool); safecall;
     function Get_Duplicates: WordBool; safecall;
     procedure Set_Duplicates(Value: WordBool); safecall;
+    procedure DeleteAttribute(const AAttribute: IBOAttribute); safecall;
+    function AttributeExists(const aName: WideString): WordBool; safecall;
+    function Get_Parent: IDispatch; safecall;
+    procedure Set_Parent(const Value: IDispatch); safecall;
     property Item[Index: Integer]: IBOAttribute read Get_Item;
     property Attribute[const aName: WideString]: IBOAttribute read Get_Attribute;
     property Value[const aName: WideString]: WideString read Get_Value write Set_Value;
     property AutoAppend: WordBool read Get_AutoAppend write Set_AutoAppend;
     property Duplicates: WordBool read Get_Duplicates write Set_Duplicates;
-  end;
-
-// *********************************************************************//
-// DispIntf:  IBOAttributeCollectionDisp
-// Flags:     (4416) Dual OleAutomation Dispatchable
-// GUID:      {FE05BB59-5F48-435D-8B21-705CA58C0EE3}
-// *********************************************************************//
-  IBOAttributeCollectionDisp = dispinterface
-    ['{FE05BB59-5F48-435D-8B21-705CA58C0EE3}']
-    property Item[Index: Integer]: IBOAttribute readonly dispid 3;
-    property Attribute[const aName: WideString]: IBOAttribute readonly dispid 2;
-    function Add(const aName: WideString; const aValue: WideString): IBOAttribute; dispid 201;
-    property Value[const aName: WideString]: WideString dispid 5;
-    property AutoAppend: WordBool dispid 7;
-    property Duplicates: WordBool dispid 6;
-    property Count: Integer readonly dispid 1;
-    property XML: WideString readonly dispid 4;
-    procedure Clear; dispid 200;
-    procedure Delete(Index: Integer); dispid 205;
+    property Parent: IDispatch read Get_Parent write Set_Parent;
   end;
 
 // *********************************************************************//
@@ -294,23 +221,10 @@ type
     function Get_Item(Index: Integer): IBOObject; safecall;
     function Add(const aClassID: WideString; const aObjectID: WideString; 
                  const aDisplayName: WideString): IBOObject; safecall;
+    function Get_Parent: IDispatch; safecall;
+    procedure Set_Parent(const Value: IDispatch); safecall;
     property Item[Index: Integer]: IBOObject read Get_Item;
-  end;
-
-// *********************************************************************//
-// DispIntf:  IBOObjectCollectionDisp
-// Flags:     (4416) Dual OleAutomation Dispatchable
-// GUID:      {3B531410-3836-4243-B3A2-9D60026BAFF3}
-// *********************************************************************//
-  IBOObjectCollectionDisp = dispinterface
-    ['{3B531410-3836-4243-B3A2-9D60026BAFF3}']
-    property Item[Index: Integer]: IBOObject readonly dispid 3;
-    function Add(const aClassID: WideString; const aObjectID: WideString; 
-                 const aDisplayName: WideString): IBOObject; dispid 6;
-    property Count: Integer readonly dispid 1;
-    property XML: WideString readonly dispid 4;
-    procedure Clear; dispid 200;
-    procedure Delete(Index: Integer); dispid 205;
+    property Parent: IDispatch read Get_Parent write Set_Parent;
   end;
 
 // *********************************************************************//
@@ -326,25 +240,14 @@ type
     function Get_Attribute(const aName: WideString): IBOAttribute; safecall;
     function Get_XML: WideString; safecall;
     function Get_Objects: IBOObjectCollection; safecall;
+    function Get_Parent: IDispatch; safecall;
+    procedure Set_Parent(const Value: IDispatch); safecall;
     property Attributes: IBOAttributeCollection read Get_Attributes;
     property Topic: WideString read Get_Topic write Set_Topic;
     property Attribute[const aName: WideString]: IBOAttribute read Get_Attribute;
     property XML: WideString read Get_XML;
     property Objects: IBOObjectCollection read Get_Objects;
-  end;
-
-// *********************************************************************//
-// DispIntf:  IBORequestDisp
-// Flags:     (4416) Dual OleAutomation Dispatchable
-// GUID:      {8FA91A6F-C560-452D-AF37-F1EA3456E961}
-// *********************************************************************//
-  IBORequestDisp = dispinterface
-    ['{8FA91A6F-C560-452D-AF37-F1EA3456E961}']
-    property Attributes: IBOAttributeCollection readonly dispid 1;
-    property Topic: WideString dispid 2;
-    property Attribute[const aName: WideString]: IBOAttribute readonly dispid 5;
-    property XML: WideString readonly dispid 4;
-    property Objects: IBOObjectCollection readonly dispid 3;
+    property Parent: IDispatch read Get_Parent write Set_Parent;
   end;
 
 // *********************************************************************//
@@ -352,29 +255,26 @@ type
 // Flags:     (4416) Dual OleAutomation Dispatchable
 // GUID:      {97AF12CB-8FF5-4DAF-94D0-2D9A65F64DE3}
 // *********************************************************************//
-  IBOResponse = interface(IBOObjectCollection)
+  IBOResponse = interface(IDispatch)
     ['{97AF12CB-8FF5-4DAF-94D0-2D9A65F64DE3}']
+    function Get_Count: Integer; safecall;
+    function Get_XML: WideString; safecall;
+    procedure Clear; safecall;
+    procedure Delete(Index: Integer); safecall;
+    function Get_Item(Index: Integer): IBOObject; safecall;
+    function Add(const aClassID: WideString; const aObjectID: WideString; 
+                 const aDisplayName: WideString): IBOObject; safecall;
     function Get_Attributes: IBOAttributeCollection; safecall;
     procedure SetError(ACode: Integer; const AMsg: WideString); safecall;
+    function Get_Objects: IBOObjectCollection; safecall;
+    function Get_Parent: IDispatch; safecall;
+    procedure Set_Parent(const Value: IDispatch); safecall;
+    property Count: Integer read Get_Count;
+    property XML: WideString read Get_XML;
+    property Item[Index: Integer]: IBOObject read Get_Item;
     property Attributes: IBOAttributeCollection read Get_Attributes;
-  end;
-
-// *********************************************************************//
-// DispIntf:  IBOResponseDisp
-// Flags:     (4416) Dual OleAutomation Dispatchable
-// GUID:      {97AF12CB-8FF5-4DAF-94D0-2D9A65F64DE3}
-// *********************************************************************//
-  IBOResponseDisp = dispinterface
-    ['{97AF12CB-8FF5-4DAF-94D0-2D9A65F64DE3}']
-    property Attributes: IBOAttributeCollection readonly dispid 2;
-    procedure SetError(ACode: Integer; const AMsg: WideString); dispid 5;
-    property Item[Index: Integer]: IBOObject readonly dispid 3;
-    function Add(const aClassID: WideString; const aObjectID: WideString; 
-                 const aDisplayName: WideString): IBOObject; dispid 6;
-    property Count: Integer readonly dispid 1;
-    property XML: WideString readonly dispid 4;
-    procedure Clear; dispid 200;
-    procedure Delete(Index: Integer); dispid 205;
+    property Objects: IBOObjectCollection read Get_Objects;
+    property Parent: IDispatch read Get_Parent write Set_Parent;
   end;
 
 // *********************************************************************//
@@ -398,34 +298,21 @@ type
     procedure UnRegisterClient; safecall;
     function Get_ClientID: Integer; safecall;
     function Get_Status: Integer; safecall;
+    function Get_NewQuery: IBOQuery; safecall;
+    procedure ExecuteQuery(const AQuery: IBOQuery; out AErrorCode: Integer; 
+                           out AErrorMessage: WideString); safecall;
+    function Select2(Modal: WordBool; ClientWindow: Integer; const InLocation: WideString; 
+                     out OutLocation: WideString): WordBool; safecall;
+    procedure GetObjectInfo2(const Location: WideString; out ClassID: WideString; 
+                             out ObjectID: WideString); safecall;
+    function GetObject2(const ClassID: WideString; const ObjectID: WideString; Options: Integer): IBOObject; safecall;
+    function GetObjects2(const ClassID: WideString; Options: Integer): IBOObjectCollection; safecall;
     property Request: IBORequest read Get_Request;
     property SourceID: WideString read Get_SourceID;
     property Response: IBOResponse read Get_Response;
     property ClientID: Integer read Get_ClientID;
     property Status: Integer read Get_Status;
-  end;
-
-// *********************************************************************//
-// DispIntf:  IBOSimpleProviderDisp
-// Flags:     (4416) Dual OleAutomation Dispatchable
-// GUID:      {B57C3F55-8C78-437F-AEFD-911FC1A3617A}
-// *********************************************************************//
-  IBOSimpleProviderDisp = dispinterface
-    ['{B57C3F55-8C78-437F-AEFD-911FC1A3617A}']
-    property Request: IBORequest readonly dispid 9;
-    procedure Refresh; dispid 1;
-    property SourceID: WideString readonly dispid 2;
-    procedure ExecuteRequest; dispid 3;
-    property Response: IBOResponse readonly dispid 4;
-    function GetObject(const ClassID: WideString; const ObjectID: WideString; Options: Integer): IBOObject; dispid 5;
-    function GetObjects(const ClassID: WideString; Options: Integer): IBOObjectCollection; dispid 6;
-    function Select(Modal: WordBool; var Location: WideString; ClientWindow: Integer): WordBool; dispid 8;
-    procedure GetObjectInfo(const Location: WideString; var ClassID: WideString; 
-                            var ObjectID: WideString); dispid 10;
-    procedure RegisterClient(const aName: WideString); dispid 11;
-    procedure UnRegisterClient; dispid 12;
-    property ClientID: Integer readonly dispid 13;
-    property Status: Integer readonly dispid 7;
+    property NewQuery: IBOQuery read Get_NewQuery;
   end;
 
 // *********************************************************************//
@@ -444,16 +331,16 @@ type
   end;
 
 // *********************************************************************//
-// DispIntf:  IBOKernelDisp
+// Interface: IBOQuery
 // Flags:     (4416) Dual OleAutomation Dispatchable
-// GUID:      {03F6492D-5155-4CF2-A372-65DD1403458B}
+// GUID:      {1F391262-7322-4806-8792-DFA83E15FCE9}
 // *********************************************************************//
-  IBOKernelDisp = dispinterface
-    ['{03F6492D-5155-4CF2-A372-65DD1403458B}']
-    procedure Refresh; dispid 1;
-    property Count: Integer dispid 3;
-    function ExternalResponse(const SourceID: WideString; Engine: Integer; 
-                              const Request: IBORequest; const Response: IBOResponse): WordBool; dispid 4;
+  IBOQuery = interface(IDispatch)
+    ['{1F391262-7322-4806-8792-DFA83E15FCE9}']
+    function Get_Request: IBORequest; safecall;
+    function Get_Response: IBOResponse; safecall;
+    property Request: IBORequest read Get_Request;
+    property Response: IBOResponse read Get_Response;
   end;
 
 implementation

@@ -32,7 +32,7 @@ unit Ask_TLB;
 {$ALIGN 4}
 interface
 
-uses Windows, ActiveX, Classes, Graphics, OleServer, Variants;
+uses Windows, ActiveX, Variants;
   
 
 // *********************************************************************//
@@ -57,7 +57,6 @@ type
 // Forward declaration of types defined in TypeLibrary                    
 // *********************************************************************//
   ICommand = interface;
-  ICommandDisp = dispinterface;
 
 // *********************************************************************//
 // Declaration of CoClasses defined in Type Library                       
@@ -82,20 +81,6 @@ type
     property InstanceHandle: Integer read Get_InstanceHandle;
     property CommandLine: WideString read Get_CommandLine;
     property DummyParameter: Integer read Get_DummyParameter;
-  end;
-
-// *********************************************************************//
-// DispIntf:  ICommandDisp
-// Flags:     (4416) Dual OleAutomation Dispatchable
-// GUID:      {C63A105F-D389-4722-99C4-F636E30D915D}
-// *********************************************************************//
-  ICommandDisp = dispinterface
-    ['{C63A105F-D389-4722-99C4-F636E30D915D}']
-    procedure Execute(hWnd: Integer; hInstance: Integer; const stCmdLine: WideString; dummy: Integer); dispid 1;
-    property WindowHandle: Integer readonly dispid 3;
-    property InstanceHandle: Integer readonly dispid 4;
-    property CommandLine: WideString readonly dispid 5;
-    property DummyParameter: Integer readonly dispid 6;
   end;
 
 implementation

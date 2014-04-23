@@ -11,19 +11,20 @@ unit Loodsman_TLB;
 // manual modifications will be lost.                                         
 // ************************************************************************ //
 
-// $Rev: 17244 $
-// File generated on 01.02.2011 10:52:56 from Type Library described below.
+// $Rev: 34747 $
+// File generated on 22.04.2014 13:07:11 from Type Library described below.
 
 // ************************************************************************  //
 // Type Lib: Loodsman.tlb (1)
 // LIBID: {7CC86059-0262-44D5-9AA3-033DB38F11EF}
 // LCID: 0
-// Helpfile: 
+// Helpfile:
 // HelpString: Loodsman Client Library
-// DepndLst: 
-//   (1) v2.0 stdole, (C:\WINDOWS\system32\STDOLE2.TLB)
-//   (2) v1.0 BOSimple, (C:\Program Files\Common Files\ASCON Shared\BOSimple.DLL)
-//   (3) v1.0 Ask, (Ask.dll)
+// DepndLst:
+//   (1) v2.0 stdole, (C:\Windows\system32\stdole2.tlb)
+//   (2) v1.0 BOSimple, (C:\Program Files (x86)\Common Files\ASCON Shared\BOSimple64.dll)
+//   (3) v1.0 PDMObjects, (C:\Program Files (x86)\ASCON\Loodsman\Client\PDMObjects.dll)
+//   (4) v1.0 Ask, (C:\Program Files (x86)\Common Files\ASCON Shared\Loodsman\Ask.dll)
 // ************************************************************************ //
 {$TYPEDADDRESS OFF} // Unit must be compiled without type-checked pointers. 
 {$WARN SYMBOL_PLATFORM OFF}
@@ -32,7 +33,7 @@ unit Loodsman_TLB;
 {$ALIGN 4}
 interface
 
-uses Windows, ActiveX, Ask_TLB, BOSimple_TLB, Classes, Graphics, OleCtrls, OleServer, Variants;
+uses Windows, ActiveX, Ask_TLB, BOSimple_TLB, PDMObjects_TLB, DataProvider_TLB, Variants;
   
 
 // *********************************************************************//
@@ -60,7 +61,6 @@ const
   CLASS_BORequest: TGUID = '{28AE9671-2F13-4CCD-9FC9-67C13C1BEA5E}';
   CLASS_BOResponse: TGUID = '{8770DB1E-00B8-43B4-A53B-5C9CE97357E7}';
   IID_ILoodsman8: TGUID = '{88222733-C7AD-4152-B0D8-CFC48EF25344}';
-  DIID_ILoodsman8Events: TGUID = '{F8EC509B-FB71-45DC-82FB-586E50B3DB18}';
   CLASS_LoodsmanObject: TGUID = '{6E2D863C-136D-4EDA-8291-28B0CE2BD066}';
   IID_IConnectSP: TGUID = '{74AA1156-3A12-4021-954E-32DC1BF4D76F}';
   CLASS_ConnectSP: TGUID = '{5D700A95-8D9D-4597-B69D-2898B32B7EF8}';
@@ -83,65 +83,46 @@ const
   IID_IRunMetods: TGUID = '{A274EEB2-800E-498F-9156-F3F6662B7359}';
   CLASS_RunMetods: TGUID = '{47600028-7CF0-4A46-83AA-71824DFEB090}';
   IID_IPluginCall: TGUID = '{7779A0A3-1BF6-45C8-A536-21AD4B97E46D}';
-  IID_IDataSet: TGUID = '{60446488-9D7B-4776-866E-7EE647F72972}';
-  CLASS_DataSet: TGUID = '{A4896438-F452-49F1-8B40-EF50F24BF5B6}';
   CLASS_PluginCall: TGUID = '{E4D4AE7B-7EB9-4057-B229-967E02B90054}';
   CLASS_URL: TGUID = '{975FD36D-CAE8-4690-A28F-830CE1141EEB}';
-  IID_IPDMData: TGUID = '{0EB0573F-D586-4B46-9FB0-F44673455D12}';
-  IID_IPDMObject: TGUID = '{E32BF2D4-529A-4566-88BF-6413B5642718}';
-  CLASS_CPDMData: TGUID = '{C962D244-EC62-457E-B0F0-5ACA07C86096}';
-  CLASS_CPDMObject: TGUID = '{A70B8B70-5CF9-4DC3-A8AD-E5331FA33054}';
-  IID_IPDMDocument: TGUID = '{693C8331-AE1F-449B-89E8-2165657984E6}';
-  CLASS_CPDMDocument: TGUID = '{0AEAEA86-D379-4826-9F9B-DA8CA0B29539}';
-  IID_IPDMFile: TGUID = '{31D155C2-5FC8-40BB-A436-062B1BCBB18E}';
-  CLASS_CPDMFile: TGUID = '{4F1E8FBF-0FEB-43D8-ABD3-07415AF65399}';
-  IID_IPDMCollection: TGUID = '{D6656545-D515-4096-8CEE-89A58223BEA5}';
-  CLASS_CPDMCollection: TGUID = '{A7C0267A-0F5D-4998-9276-73BAB12813DC}';
-  IID_IView: TGUID = '{3A337EF0-BB86-4F60-B577-699192922B3A}';
-  CLASS_CView: TGUID = '{F9681FF6-182A-43DE-B0F2-B3E11B15FB31}';
-  IID_IAnnotation: TGUID = '{09741CE4-5386-4037-8DFC-B83628AAE723}';
-  CLASS_CAnnotation: TGUID = '{CAC15135-4162-46CD-A60D-E484A4331C5E}';
   IID_IDocumentViewer: TGUID = '{27B59D50-87FA-4017-B8C1-5F02D90EF1E7}';
-  IID_ILoodsmanUser: TGUID = '{24D25D51-3044-4D0E-AFCF-DB6471487BF5}';
-  CLASS_CLoodsmanUser: TGUID = '{1937E223-4026-4484-A8E6-544AB1A71AAE}';
   IID_IDataBase: TGUID = '{84555B43-9101-41CA-AAB3-0F176A0AF30C}';
   CLASS_CDataBase: TGUID = '{593972B0-7702-4932-A46C-9446555821DB}';
   IID_IDBWindow: TGUID = '{8A2DF0A5-19C6-4B21-AD73-7F8718CA37EE}';
+  IID_IDBContext: TGUID = '{58BAB84A-4E14-4D67-A29E-6FF764FD9FFA}';
+  IID_ILoodsmanApplication: TGUID = '{C50527B3-98D4-4C81-BE85-8D9B04A625FC}';
+  IID_IActions: TGUID = '{22C267CC-D48E-43F0-94B9-AF03C949D103}';
+  IID_ILoodsmanPlugin: TGUID = '{8A0AD8A6-791D-4211-B6B0-A8C25FA33209}';
+  CLASS_CoLooPlugin: TGUID = '{905FB351-0656-43DD-BE9B-6F3A8CD2A82E}';
+  IID_IFrameInfo: TGUID = '{3002A3EA-E245-441E-BE6F-4E9878EDE382}';
+  IID_ILoodsmanFrame: TGUID = '{43151655-95CC-40B4-9D92-A95E8DF52043}';
+  IID_IFrameContainer: TGUID = '{540CAE0E-987D-4429-837D-1A4A9A28192F}';
+  IID_IContent: TGUID = '{3F471E54-37F4-43C6-BA40-28FFCB2892DB}';
   CLASS_CDBWindow: TGUID = '{9718B914-E357-436F-8D57-99216039534F}';
-  IID_IWFObject: TGUID = '{7D2F6E4D-0552-475A-BE96-734DC993414B}';
-  CLASS_CWFObject: TGUID = '{2B9A2019-2B0C-4DF4-9072-23B13DDA865F}';
-  IID_IWFRoute: TGUID = '{85206128-062B-4058-8795-4AF30ACBA67B}';
-  CLASS_CWFRoute: TGUID = '{0D161323-5BC4-4827-95AC-80D73E54938A}';
-  IID_IWFTask: TGUID = '{48A0BE87-BAB6-4776-8EEC-69AACEC9A40C}';
-  CLASS_CWFTask: TGUID = '{DF024425-4146-4BCE-8D2E-DCF7E9F2779E}';
-  IID_ITaskTerm: TGUID = '{8A4B5F2B-EDEA-4B6B-BA13-938232E9627F}';
-  CLASS_CTaskTerm: TGUID = '{5F5FB324-814C-4D8B-B7F5-F942DE75C605}';
-  IID_IAsyncTask: TGUID = '{A3CBA7B0-2E12-44CA-9BEB-39D269AC30BD}';
-  IID_IPluginCallBack: TGUID = '{9C6DAF55-8F9D-4AB6-B151-F83E317480E5}';
-  CLASS_CAsyncTask: TGUID = '{1695051D-46A7-4D5A-938C-854DCF188C9F}';
-  IID_IRTFText: TGUID = '{ACCC7902-EE75-474E-AD45-544086136A68}';
-  CLASS_CRTFText: TGUID = '{B34738C4-93D2-4506-8715-974FD05B2177}';
+  CLASS_CoSimpleAPI: TGUID = '{5CC4A40D-CF2B-45AA-86EF-A3E95B27C2CD}';
+  CLASS_CoDataSet: TGUID = '{A00EC6F8-5E3A-4569-8A2C-F26DAF5FFF8D}';
+  CLASS_CoClientAsyncTask: TGUID = '{D73AEEFC-A43E-4C76-B019-2047C12FE376}';
+  IID_IOptions: TGUID = '{F64CF2A2-E862-4365-B20F-19E9A5BE0038}';
+  CLASS_CoOptions: TGUID = '{34BD230F-01AF-4275-82C4-9AC03BAC8AD9}';
+  CLASS_CoDBContext: TGUID = '{1AA364E5-B3A5-4AB4-9A2B-D0E48841FF83}';
+  CLASS_CoFrameContainer: TGUID = '{7DC478B3-9941-4FE4-AE62-459BC8A41B1B}';
+  IID_IActionHandler: TGUID = '{9827725B-F4DE-4EDA-B37D-2C09710722B5}';
+  IID_IApplicationMenu: TGUID = '{9758DAA9-74D9-4A13-95EB-356F3FE66073}';
+  IID_INotification: TGUID = '{753BE7FF-88BB-446A-92C0-BE79EFA7400C}';
+  IID_INotificationHandler: TGUID = '{52A780D4-B5CA-4A30-9CBE-739D98F9D528}';
+  CLASS_CoNotification: TGUID = '{D8E82FDA-A104-4ECE-B155-7BBB75A41279}';
+  IID_IMenuBar: TGUID = '{6FC203EF-B841-47E1-962B-E7B0DCA1EA4D}';
+  CLASS_CoMenuBar: TGUID = '{54C62FF2-A971-4C79-95C2-08FF9F091879}';
+  IID_IMenuItem: TGUID = '{E778343E-D2DF-4698-B57F-C5377B6E1845}';
+  CLASS_CoMenuItem: TGUID = '{DB0D3991-A053-42ED-A6B6-97ECD1A1F187}';
+  IID_ILoodsmanService: TGUID = '{67927DBE-4A12-4785-9D36-F72E7299884B}';
+  IID_IServiceInfo: TGUID = '{8409E9CD-B499-4C91-B06F-95741911B226}';
+  CLASS_CoActions: TGUID = '{CA2C05F3-9875-4906-9FAF-849C3739210F}';
+  CLASS_LooApplication: TGUID = '{AAAE7194-C4AB-4056-9045-FBCE7DB25B48}';
 
 // *********************************************************************//
 // Declaration of Enumerations defined in Type Library                    
 // *********************************************************************//
-// Constants for enum PDMLockLevels
-type
-  PDMLockLevels = TOleEnum;
-const
-  NoLock = $00000000;
-  SelfLock = $00000001;
-  UserLock = $00000002;
-
-// Constants for enum PDMAccessLevels
-type
-  PDMAccessLevels = TOleEnum;
-const
-  NoAccess = $00000000;
-  ReadAccess = $00000001;
-  EditAccess = $00000002;
-  AdminAccess = $00000003;
-
 // Constants for enum DocumentViewerCommands
 type
   DocumentViewerCommands = TOleEnum;
@@ -163,49 +144,44 @@ const
   COMMAND_DELETE = $00000008;
   COMMAND_HELP = $00000010;
 
-// Constants for enum UserFeatures
+// Constants for enum ActionResults
 type
-  UserFeatures = TOleEnum;
+  ActionResults = TOleEnum;
 const
-  CREATE_FEATURE = $00000001;
-  RUN_FEATURE = $00000002;
-  EDIT_CALENDAR_FEATURE = $00000004;
-  ADMIN_FEATURE = $00000008;
+  arDone = $00000000;
+  arContinue = $00000001;
+  arError = $00000002;
 
-// Constants for enum WFRouteStates
+// Constants for enum MenuItemTypes
 type
-  WFRouteStates = TOleEnum;
+  MenuItemTypes = TOleEnum;
 const
-  rsNew = $00000000;
-  rsActive = $00000001;
-  rsStopped = $00000002;
-  rsFinished = $00000003;
+  mitUnknown = $00000000;
+  mitSubItem = $00000001;
+  mitButton = $00000002;
 
-// Constants for enum WFTaskStates
+// Constants for enum URLProcessingFlags
 type
-  WFTaskStates = TOleEnum;
+  URLProcessingFlags = TOleEnum;
 const
-  ttUndefined = $00000000;
-  ttReceived = $00000001;
-  ttRunning = $00000002;
-  ttFinished = $00000003;
-  ttQuestions = $00000004;
-  ttRefused = $00000005;
+  URL_FLAG_NONE = $00000000;
+  URL_FLAG_FLASH = $00000001;
+  URL_FLAG_FORCE_OPEN = $00000002;
 
-// Constants for enum WFTaskTypes
+// Constants for enum MenuBarTypes
 type
-  WFTaskTypes = TOleEnum;
+  MenuBarTypes = TOleEnum;
 const
-  ttStage = $00000000;
-  ttSubRoute = $00000001;
+  BAR_TYPE_MENU = $00000000;
+  BAR_TYPE_NAVIGATOR_GROUPED = $00000001;
 
-// Constants for enum WFObjectTypes
+// Constants for enum FrameValidateStatus
 type
-  WFObjectTypes = TOleEnum;
+  FrameValidateStatus = TOleEnum;
 const
-  woUnknown = $00000000;
-  woTask = $00000001;
-  woRoute = $00000002;
+  fvNotValid = $00000000;
+  fvValid = $00000001;
+  fvWaitData = $00000002;
 
 type
 
@@ -213,68 +189,70 @@ type
 // Forward declaration of types defined in TypeLibrary                    
 // *********************************************************************//
   ILoodsman8 = interface;
-  ILoodsman8Disp = dispinterface;
-  ILoodsman8Events = dispinterface;
   IConnectSP = interface;
-  IConnectSPDisp = dispinterface;
   ISocketConnect = interface;
-  ISocketConnectDisp = dispinterface;
   IWebConnect = interface;
-  IWebConnectDisp = dispinterface;
   ISQLAutorization = interface;
-  ISQLAutorizationDisp = dispinterface;
   IConnectDB = interface;
-  IConnectDBDisp = dispinterface;
   IMetodsWorkObject = interface;
-  IMetodsWorkObjectDisp = dispinterface;
   IOutlookBar = interface;
-  IOutlookBarDisp = dispinterface;
   IConnectDBActive = interface;
-  IConnectDBActiveDisp = dispinterface;
   ISaveDocument = interface;
-  ISaveDocumentDisp = dispinterface;
   IRunMetods = interface;
-  IRunMetodsDisp = dispinterface;
   IPluginCall = interface;
-  IPluginCallDisp = dispinterface;
-  IDataSet = interface;
-  IDataSetDisp = dispinterface;
-  IPDMData = interface;
-  IPDMDataDisp = dispinterface;
-  IPDMObject = interface;
-  IPDMObjectDisp = dispinterface;
-  IPDMDocument = interface;
-  IPDMDocumentDisp = dispinterface;
-  IPDMFile = interface;
-  IPDMFileDisp = dispinterface;
-  IPDMCollection = interface;
-  IPDMCollectionDisp = dispinterface;
-  IView = interface;
-  IViewDisp = dispinterface;
-  IAnnotation = interface;
-  IAnnotationDisp = dispinterface;
   IDocumentViewer = interface;
-  IDocumentViewerDisp = dispinterface;
-  ILoodsmanUser = interface;
-  ILoodsmanUserDisp = dispinterface;
   IDataBase = interface;
-  IDataBaseDisp = dispinterface;
   IDBWindow = interface;
-  IDBWindowDisp = dispinterface;
-  IWFObject = interface;
-  IWFObjectDisp = dispinterface;
-  IWFRoute = interface;
-  IWFRouteDisp = dispinterface;
-  IWFTask = interface;
-  IWFTaskDisp = dispinterface;
-  ITaskTerm = interface;
-  ITaskTermDisp = dispinterface;
-  IAsyncTask = interface;
-  IAsyncTaskDisp = dispinterface;
-  IPluginCallBack = interface;
-  IPluginCallBackDisp = dispinterface;
-  IRTFText = interface;
-  IRTFTextDisp = dispinterface;
+  IDBContext = interface;
+  ILoodsmanApplication = interface;
+  IActions = interface;
+  ILoodsmanPlugin = interface;
+  IFrameInfo = interface;
+  ILoodsmanFrame = interface;
+  IFrameContainer = interface;
+  IContent = interface;
+  IOptions = interface;
+  IActionHandler = interface;
+  IApplicationMenu = interface;
+  INotification = interface;
+  INotificationHandler = interface;
+  IMenuBar = interface;
+  IMenuItem = interface;
+  ILoodsmanService = interface;
+  IServiceInfo = interface;
+
+  {$ifdef UseV11DataSet}
+  IDataSet = DataProvider_TLB.IDataSetV11;
+  {$else}
+  IDataSet = DataProvider_TLB.IDataSetV13;
+  {$endif}
+
+  {$ifdef UseV13PDMData}
+  IPDMData = PDMObjects_TLB.IPDMDataV13;
+  IPDMObject = PDMObjects_TLB.IPDMObjectV13;
+  IPDMDocument = PDMObjects_TLB.IPDMDocumentV13;
+  IPDMFile = PDMObjects_TLB.IPDMFileV13;
+  IPDMCollection = PDMObjects_TLB.IPDMCollectionV13;
+  IWFObject = PDMObjects_TLB.IWFObjectV13;
+  IWFRoute = PDMObjects_TLB.IWFRouteV13;
+  IWFTask = PDMObjects_TLB.IWFTaskV13;
+  IPDMLink = PDMObjects_TLB.IPDMLinkV13;
+  IWFMail = PDMObjects_TLB.IWFMailV13;
+  IObjectBuilder = PDMObjects_TLB.IObjectBuilderV13;
+  {$else}
+  IPDMData = PDMObjects_TLB.IPDMDataV14;
+  IProtectedPDMData = PDMObjects_TLB.IProtectedPDMDataV14;
+  IPDMObject = PDMObjects_TLB.IPDMObjectV14;
+  IPDMDocument = PDMObjects_TLB.IPDMDocumentV14;
+  IPDMFile = PDMObjects_TLB.IPDMFileV14;
+  IPDMCollection = PDMObjects_TLB.IPDMCollectionV14;
+  IWFObject = PDMObjects_TLB.IWFObjectV14;
+  IWFRoute = PDMObjects_TLB.IWFRouteV14;
+  IWFTask = PDMObjects_TLB.IWFTaskV14;
+  IPDMLink = PDMObjects_TLB.IPDMLinkV14;
+  IWFMail = PDMObjects_TLB.IWFMailV14;
+  IObjectBuilder = PDMObjects_TLB.IObjectBuilderV14;
+  {$endif}
 
 // *********************************************************************//
 // Declaration of CoClasses defined in Type Library                       
@@ -301,34 +279,22 @@ type
   ConnectDBActive = IConnectDBActive;
   SaveDocument = ISaveDocument;
   RunMetods = IRunMetods;
-  DataSet = IDataSet;
   PluginCall = IPluginCall;
   URL = ICommand;
-  CPDMData = IPDMData;
-  CPDMObject = IPDMObject;
-  CPDMDocument = IPDMDocument;
-  CPDMFile = IPDMFile;
-  CPDMCollection = IPDMCollection;
-  CView = IView;
-  CAnnotation = IAnnotation;
-  CLoodsmanUser = ILoodsmanUser;
   CDataBase = IDataBase;
+  CoLooPlugin = ILoodsmanPlugin;
   CDBWindow = IDBWindow;
-  CWFObject = IWFObject;
-  CWFRoute = IWFRoute;
-  CWFTask = IWFTask;
-  CTaskTerm = ITaskTerm;
-  CAsyncTask = IAsyncTask;
-  CRTFText = IRTFText;
-
-
-// *********************************************************************//
-// Declaration of structures, unions and aliases.                         
-// *********************************************************************//
-  WFRole = record
-    ID: Integer;
-    Name: WideString;
-  end;
+  CoSimpleAPI = IDispatch;
+  CoDataSet = IDispatch;
+  CoClientAsyncTask = IDispatch;
+  CoOptions = IOptions;
+  CoDBContext = IDBContext;
+  CoFrameContainer = IFrameContainer;
+  CoNotification = INotification;
+  CoMenuBar = IMenuBar;
+  CoMenuItem = IMenuItem;
+  CoActions = IActions;
+  LooApplication = ILoodsmanApplication;
 
 
 // *********************************************************************//
@@ -371,40 +337,6 @@ type
   end;
 
 // *********************************************************************//
-// DispIntf:  ILoodsman8Disp
-// Flags:     (4416) Dual OleAutomation Dispatchable
-// GUID:      {88222733-C7AD-4152-B0D8-CFC48EF25344}
-// *********************************************************************//
-  ILoodsman8Disp = dispinterface
-    ['{88222733-C7AD-4152-B0D8-CFC48EF25344}']
-    procedure sResult; dispid 7;
-    procedure lnDialogSelectSP(AppHandle: SYSINT); dispid 11;
-    property lnGetConnectSP[inTypeConnect: Integer; out inReturnCode: OleVariant; 
-                            out stErrorMessage: OleVariant]: IConnectSP readonly dispid 10;
-    property lnGetConnectDB[inTypeConnect: Integer; out inReturnCode: OleVariant; 
-                            out stErrorMessage: OleVariant]: IConnectDB readonly dispid 13;
-    property lnGetConnectDBActive[out inReturnCode: OleVariant; out stErrorMessage: OleVariant]: IConnectDBActive readonly dispid 2;
-    property lnGetIOutlookBar: IOutlookBar readonly dispid 6;
-    property lnSetFormat[out inReturnCode: OleVariant; out stErrorMessage: OleVariant]: Integer dispid 5;
-    procedure Quit; dispid 4;
-    property lnStatusOfExhibit: Integer dispid 3;
-    property lnMetodsWorkObject: IMetodsWorkObject readonly dispid 1;
-    procedure lnCheckConnectLN; dispid 8;
-    procedure lnWait(const stNameMetod: WideString); dispid 9;
-    property lnRunMetods: IRunMetods readonly dispid 12;
-    property lnMessageDlg[const stMessage: WideString; inTypeMessage: SYSINT]: Integer readonly dispid 14;
-  end;
-
-// *********************************************************************//
-// DispIntf:  ILoodsman8Events
-// Flags:     (4096) Dispatchable
-// GUID:      {F8EC509B-FB71-45DC-82FB-586E50B3DB18}
-// *********************************************************************//
-  ILoodsman8Events = dispinterface
-    ['{F8EC509B-FB71-45DC-82FB-586E50B3DB18}']
-  end;
-
-// *********************************************************************//
 // Interface: IConnectSP
 // Flags:     (4416) Dual OleAutomation Dispatchable
 // GUID:      {74AA1156-3A12-4021-954E-32DC1BF4D76F}
@@ -426,21 +358,6 @@ type
   end;
 
 // *********************************************************************//
-// DispIntf:  IConnectSPDisp
-// Flags:     (4416) Dual OleAutomation Dispatchable
-// GUID:      {74AA1156-3A12-4021-954E-32DC1BF4D76F}
-// *********************************************************************//
-  IConnectSPDisp = dispinterface
-    ['{74AA1156-3A12-4021-954E-32DC1BF4D76F}']
-    property vConnectionType: Integer writeonly dispid 2;
-    property vDCOMConnect: WideString writeonly dispid 3;
-    property mGetSocketConnect: ISocketConnect readonly dispid 8;
-    property mGetWebConnect: IWebConnect readonly dispid 9;
-    property Update: Integer readonly dispid 1;
-    property lnTestConnect[var stValue: WideString]: SYSINT readonly dispid 6;
-  end;
-
-// *********************************************************************//
 // Interface: ISocketConnect
 // Flags:     (4416) Dual OleAutomation Dispatchable
 // GUID:      {0B5E03EE-9FAA-48F2-BCFA-DC6567E3424F}
@@ -453,18 +370,6 @@ type
     property scServerAlias: WideString write Set_scServerAlias;
     property scAddress: WideString write Set_scAddress;
     property scPort: WideString write Set_scPort;
-  end;
-
-// *********************************************************************//
-// DispIntf:  ISocketConnectDisp
-// Flags:     (4416) Dual OleAutomation Dispatchable
-// GUID:      {0B5E03EE-9FAA-48F2-BCFA-DC6567E3424F}
-// *********************************************************************//
-  ISocketConnectDisp = dispinterface
-    ['{0B5E03EE-9FAA-48F2-BCFA-DC6567E3424F}']
-    property scServerAlias: WideString writeonly dispid 1;
-    property scAddress: WideString writeonly dispid 2;
-    property scPort: WideString writeonly dispid 3;
   end;
 
 // *********************************************************************//
@@ -489,21 +394,6 @@ type
   end;
 
 // *********************************************************************//
-// DispIntf:  IWebConnectDisp
-// Flags:     (4416) Dual OleAutomation Dispatchable
-// GUID:      {A805C729-0233-4D9B-A5BE-A0F80158D182}
-// *********************************************************************//
-  IWebConnectDisp = dispinterface
-    ['{A805C729-0233-4D9B-A5BE-A0F80158D182}']
-    property scServerAlias: WideString writeonly dispid 1;
-    property wcURL: WideString writeonly dispid 2;
-    property wcUser: WideString writeonly dispid 3;
-    property wcPasswords: WideString writeonly dispid 4;
-    property wcUseCheckProxy: Integer writeonly dispid 5;
-    property wcProxy: WideString writeonly dispid 6;
-  end;
-
-// *********************************************************************//
 // Interface: ISQLAutorization
 // Flags:     (4416) Dual OleAutomation Dispatchable
 // GUID:      {5DC7E3F8-57E4-4991-B3FA-C0CD0613D7E4}
@@ -516,18 +406,6 @@ type
     property sqlaUserName: WideString write Set_sqlaUserName;
     property sqlaPasswords: WideString write Set_sqlaPasswords;
     property sqlaSavePasswords: Integer write Set_sqlaSavePasswords;
-  end;
-
-// *********************************************************************//
-// DispIntf:  ISQLAutorizationDisp
-// Flags:     (4416) Dual OleAutomation Dispatchable
-// GUID:      {5DC7E3F8-57E4-4991-B3FA-C0CD0613D7E4}
-// *********************************************************************//
-  ISQLAutorizationDisp = dispinterface
-    ['{5DC7E3F8-57E4-4991-B3FA-C0CD0613D7E4}']
-    property sqlaUserName: WideString writeonly dispid 1;
-    property sqlaPasswords: WideString writeonly dispid 2;
-    property sqlaSavePasswords: Integer writeonly dispid 3;
   end;
 
 // *********************************************************************//
@@ -552,24 +430,6 @@ type
     property Update[inStateDB: Integer]: Integer read Get_Update;
     property lnMetodsWorkObject: IMetodsWorkObject read Get_lnMetodsWorkObject;
     property lnRunMetods: IRunMetods read Get_lnRunMetods;
-  end;
-
-// *********************************************************************//
-// DispIntf:  IConnectDBDisp
-// Flags:     (4416) Dual OleAutomation Dispatchable
-// GUID:      {25BDC8B8-72DA-4DCD-9B86-4DC812FA3D64}
-// *********************************************************************//
-  IConnectDBDisp = dispinterface
-    ['{25BDC8B8-72DA-4DCD-9B86-4DC812FA3D64}']
-    property NameBaseConnect: WideString writeonly dispid 1;
-    property TypeAutorization: Integer writeonly dispid 2;
-    property mGetSQLAutorization: ISQLAutorization readonly dispid 3;
-    property Update[inStateDB: Integer]: Integer readonly dispid 5;
-    property lnMetodsWorkObject: IMetodsWorkObject readonly dispid 12;
-    procedure lnGetDBProperties(out inReturnCode: OleVariant; out stErrorMessage: OleVariant; 
-                                const stNameDB: WideString; inSetFormat: Integer; 
-                                out DATA: OleVariant; out inRecsOut: SYSINT); dispid 4;
-    property lnRunMetods: IRunMetods readonly dispid 6;
   end;
 
 // *********************************************************************//
@@ -640,72 +500,6 @@ type
   end;
 
 // *********************************************************************//
-// DispIntf:  IMetodsWorkObjectDisp
-// Flags:     (4416) Dual OleAutomation Dispatchable
-// GUID:      {3310D9AB-FC52-4404-A56A-2DE38B11D47E}
-// *********************************************************************//
-  IMetodsWorkObjectDisp = dispinterface
-    ['{3310D9AB-FC52-4404-A56A-2DE38B11D47E}']
-    procedure lnGetInfoAboutVersion(var inReturnCode: OleVariant; var stErrorMessage: OleVariant; 
-                                    const stType: WideString; const stProduct: WideString; 
-                                    const stVersion: WideString; inIdVersion: SYSINT; 
-                                    inMode: Integer; inSetFormat: Integer; var DATA: OleVariant; 
-                                    var inRecsOut: SYSINT); dispid 1;
-    procedure lnGetLinkedObjectsEx(var inReturnCode: OleVariant; var stErrorMessage: OleVariant; 
-                                   const stTypeName: WideString; const stProductName: WideString; 
-                                   const stVersionNumber: WideString; const stLinkType: WideString; 
-                                   boInverse: Integer; boFullLink: Integer; 
-                                   boGroupByProduct: Integer; boForTree: Integer; 
-                                   inSetFormat: Integer; var DATA: OleVariant; var inRecsOut: SYSINT); dispid 2;
-    procedure lnGetLinkedFast(var inReturnCode: OleVariant; var stErrorMessage: OleVariant; 
-                              inIdVersion: SYSINT; const stLinkType: WideString; 
-                              inSetFormat: Integer; var DATA: OleVariant; var inRecsOut: SYSINT); dispid 4;
-    procedure lnGetLinkedObjectsAndFiles(out inReturnCode: OleVariant; 
-                                         out stErrorMessage: OleVariant; 
-                                         const stTypeName: WideString; 
-                                         const stProductName: WideString; 
-                                         const stVersionNumber: WideString; 
-                                         const stLinkType: WideString; boFullLink: Integer; 
-                                         boViewOnlyDocuments: Integer; inSetFormat: Integer; 
-                                         out DATA: OleVariant; out inRecsOut: SYSINT); dispid 3;
-    procedure lnGetInfoAboutFile(out inReturnCode: OleVariant; out stErrorMessage: OleVariant; 
-                                 stFileName: Integer; stFullFilePath: Integer; 
-                                 inSetFormat: Integer; out DATA: OleVariant; out inRecsOut: SYSINT); dispid 6;
-    procedure lnGetInfoAboutType(out inReturnCode: OleVariant; out stErrorMessage: OleVariant; 
-                                 const stType: WideString; inMode: Integer; inSetFormat: Integer; 
-                                 out DATA: OleVariant; out inRecsOut: SYSINT); dispid 10;
-    procedure lnGotoObject(out inReturnCode: OleVariant; out stErrorMessage: OleVariant; 
-                           const stNameDB: WideString; const stNameCheck: WideString; 
-                           const stType: WideString; const stProduct: WideString; 
-                           const stVersion: WideString; inIdVersion: SYSINT); dispid 5;
-    procedure lnSelectObject(out inReturnCode: OleVariant; out stErrorMessage: OleVariant; 
-                             inSetFormat: Integer; out DATA: OleVariant; out inRecsOut: SYSINT); dispid 7;
-    procedure lnImportObjectWithFile(out inReturnCode: OleVariant; out stErrorMessage: OleVariant; 
-                                     inSetFormat: Integer; out DATA: OleVariant; 
-                                     out inRecsOut: SYSINT); dispid 11;
-    procedure lnImportFileWithFile(out inReturnCode: OleVariant; out stErrorMessage: OleVariant; 
-                                   const stFilter: WideString; inTypeOpenFile: Integer; 
-                                   inSetFormat: Integer; inLockMultiExtract: Integer; 
-                                   out DATA: OleVariant; out inRecsOut: SYSINT); dispid 13;
-    procedure lnOpenDocument(out inReturnCode: OleVariant; out stErrorMessage: OleVariant; 
-                             const stFilter: WideString; inSetFormat: Integer; 
-                             out inCheckOut: Integer; out DATA: OleVariant; out inRecsOut: SYSINT); dispid 8;
-    procedure lnExtractDocument(out inReturnCode: OleVariant; out stErrorMessage: OleVariant; 
-                                const stFilter: WideString; inSetFormat: Integer; 
-                                out inCheckOut: Integer; out DATA: OleVariant; 
-                                out inRecsOut: SYSINT; const stHintMessage: WideString; 
-                                inLockMultiExtract: Integer); dispid 12;
-    property lnSaveDocument: ISaveDocument readonly dispid 15;
-    procedure lnExtractDocumentFormShow(out inReturnCode: OleVariant; 
-                                        out stErrorMessage: OleVariant; const stFilter: WideString; 
-                                        inSetFormat: Integer; out inCheckOut: Integer; 
-                                        out DATA: OleVariant; out inRecsOut: SYSINT; 
-                                        const stHintMessage: WideString; 
-                                        inLockMultiExtract: Integer; 
-                                        const stCaptionMessage: WideString); dispid 9;
-  end;
-
-// *********************************************************************//
 // Interface: IOutlookBar
 // Flags:     (4432) Hidden Dual OleAutomation Dispatchable
 // GUID:      {6D3C83A2-C709-4A10-8F16-912CEE24D5B2}
@@ -739,31 +533,6 @@ type
   end;
 
 // *********************************************************************//
-// DispIntf:  IOutlookBarDisp
-// Flags:     (4432) Hidden Dual OleAutomation Dispatchable
-// GUID:      {6D3C83A2-C709-4A10-8F16-912CEE24D5B2}
-// *********************************************************************//
-  IOutlookBarDisp = dispinterface
-    ['{6D3C83A2-C709-4A10-8F16-912CEE24D5B2}']
-    procedure lnGetDesktop(out inReturnCode: OleVariant; out stErrorMessage: OleVariant; 
-                           inSetFormat: Integer; out DATA: OleVariant; out inRecsOut: SYSINT); dispid 1;
-    procedure lnGetDataBases(out inReturnCode: OleVariant; out stErrorMessage: OleVariant; 
-                             inSetFormat: Integer; out DATA: OleVariant; out inRecsOut: SYSINT); dispid 2;
-    procedure lnGetUserSets(out inReturnCode: OleVariant; out stErrorMessage: OleVariant; 
-                            inSetFormat: Integer; out DATA: OleVariant; out inRecsOut: SYSINT); dispid 4;
-    procedure lnGetFavorites(out inReturnCode: OleVariant; out stErrorMessage: OleVariant; 
-                             inSetFormat: Integer; out DATA: OleVariant; out inRecsOut: SYSINT); dispid 5;
-    property lnOpenObjDesktop[inOpenOutlookList: SYSINT; const stCheckName: WideString; 
-                              const stNameDB: WideString]: IConnectDBActive readonly dispid 9;
-    property lnOpenDataBase[inOpenOutlookList: SYSINT; const stNameDB: WideString]: IConnectDBActive readonly dispid 10;
-    property lnOpenObjUserSets[inOpenOutlookList: SYSINT; const stUserSet: WideString; 
-                               const stNameDB: WideString]: IConnectDBActive readonly dispid 11;
-    property lnOpenObjFavorites[inOpenOutlookList: SYSINT; const stName: WideString; 
-                                const stNameDB: WideString; inIdVersion: SYSINT]: IConnectDBActive readonly dispid 12;
-    property lnGetConnectBDActive: IConnectDBActive readonly dispid 6;
-  end;
-
-// *********************************************************************//
 // Interface: IConnectDBActive
 // Flags:     (4416) Dual OleAutomation Dispatchable
 // GUID:      {9BFF6226-1C52-4EBA-B00B-087558397C50}
@@ -779,19 +548,6 @@ type
   end;
 
 // *********************************************************************//
-// DispIntf:  IConnectDBActiveDisp
-// Flags:     (4416) Dual OleAutomation Dispatchable
-// GUID:      {9BFF6226-1C52-4EBA-B00B-087558397C50}
-// *********************************************************************//
-  IConnectDBActiveDisp = dispinterface
-    ['{9BFF6226-1C52-4EBA-B00B-087558397C50}']
-    property lnMetodsWorkObject: IMetodsWorkObject readonly dispid 12;
-    procedure lnGetDBProperties(out inReturnCode: OleVariant; out stErrorMessage: OleVariant; 
-                                inSetFormat: Integer; out DATA: OleVariant; out inRecsOut: SYSINT); dispid 1;
-    property lnRunMetods: IRunMetods readonly dispid 3;
-  end;
-
-// *********************************************************************//
 // Interface: ISaveDocument
 // Flags:     (4416) Dual OleAutomation Dispatchable
 // GUID:      {5A417D0C-4ACA-42A0-AEE1-32D56BA5CE1D}
@@ -804,21 +560,10 @@ type
     procedure lnUpData(out inReturnCode: OleVariant; out stErrorMessage: OleVariant; 
                        inCheck: Integer; lnRunTime: Integer; lnWaitTime: Integer); safecall;
     procedure lnSaveDocumentFree; safecall;
-  end;
-
-// *********************************************************************//
-// DispIntf:  ISaveDocumentDisp
-// Flags:     (4416) Dual OleAutomation Dispatchable
-// GUID:      {5A417D0C-4ACA-42A0-AEE1-32D56BA5CE1D}
-// *********************************************************************//
-  ISaveDocumentDisp = dispinterface
-    ['{5A417D0C-4ACA-42A0-AEE1-32D56BA5CE1D}']
-    procedure lnSaveDocument(out inReturnCode: OleVariant; out stErrorMessage: OleVariant; 
-                             inSetFormat: Integer; DATA: OleVariant; inRecsIn: SYSINT; 
-                             out DATAOut: OleVariant; out inRecsOut: SYSINT); dispid 13;
-    procedure lnUpData(out inReturnCode: OleVariant; out stErrorMessage: OleVariant; 
-                       inCheck: Integer; lnRunTime: Integer; lnWaitTime: Integer); dispid 1;
-    procedure lnSaveDocumentFree; dispid 2;
+    procedure lnSaveDocumentEx(out inReturnCode: OleVariant; out stErrorMessage: OleVariant; 
+                               inSetFormat: Integer; DATA: OleVariant; inRecsIn: SYSINT; 
+                               out DATAOut: OleVariant; out inRecsOut: SYSINT; Flags: Integer); safecall;
+    function lnGetSaveStatus: Integer; safecall;
   end;
 
 // *********************************************************************//
@@ -835,22 +580,6 @@ type
                          out inRecsOut: SYSINT; inSetFormat: Integer); safecall;
     procedure lnFree; safecall;
     function lnRunMethod(const stMethod: WideString; vaParams: OleVariant): OleVariant; safecall;
-  end;
-
-// *********************************************************************//
-// DispIntf:  IRunMetodsDisp
-// Flags:     (4432) Hidden Dual OleAutomation Dispatchable
-// GUID:      {A274EEB2-800E-498F-9156-F3F6662B7359}
-// *********************************************************************//
-  IRunMetodsDisp = dispinterface
-    ['{A274EEB2-800E-498F-9156-F3F6662B7359}']
-    procedure lnCreate(out inReturnCode: OleVariant; out stErrorMessage: OleVariant); dispid 1;
-    procedure lnRunMetod(out inReturnCode: OleVariant; out stErrorMessage: OleVariant; 
-                         const stNameDB: WideString; const stNameCheck: WideString; 
-                         const stMetodName: WideString; vParams: OleVariant; out DATA: OleVariant; 
-                         out inRecsOut: SYSINT; inSetFormat: Integer); dispid 2;
-    procedure lnFree; dispid 3;
-    function lnRunMethod(const stMethod: WideString; vaParams: OleVariant): OleVariant; dispid 4;
   end;
 
 // *********************************************************************//
@@ -878,8 +607,13 @@ type
     function Get_SelectedParent: WordBool; safecall;
     function Get_Selected: IPDMObject; safecall;
     function Get_WFSelected: IWFObject; safecall;
-    function Get_AsyncTask: IAsyncTask; safecall;
+    function Get_AsyncTask: IDispatch; safecall;
     function Get_MainHandle: OLE_HANDLE; safecall;
+    function Get_ServerName: WideString; safecall;
+    function Get_ParentObject: IPDMObject; safecall;
+    function Get_LinkName: WideString; safecall;
+    function Get_Content: IContent; safecall;
+    function Get_WBSSystem: IDispatch; safecall;
     property DBName: WideString read Get_DBName;
     property CheckOut: Integer read Get_CheckOut;
     property AppHandle: OLE_HANDLE read Get_AppHandle;
@@ -896,382 +630,13 @@ type
     property SelectedParent: WordBool read Get_SelectedParent;
     property Selected: IPDMObject read Get_Selected;
     property WFSelected: IWFObject read Get_WFSelected;
-    property AsyncTask: IAsyncTask read Get_AsyncTask;
+    property AsyncTask: IDispatch read Get_AsyncTask;
     property MainHandle: OLE_HANDLE read Get_MainHandle;
-  end;
-
-// *********************************************************************//
-// DispIntf:  IPluginCallDisp
-// Flags:     (4416) Dual OleAutomation Dispatchable
-// GUID:      {7779A0A3-1BF6-45C8-A536-21AD4B97E46D}
-// *********************************************************************//
-  IPluginCallDisp = dispinterface
-    ['{7779A0A3-1BF6-45C8-A536-21AD4B97E46D}']
-    function RunMethod(const stMetod: WideString; vaParams: OleVariant): OleVariant; dispid 1;
-    function GetDataSet(const stMetod: WideString; vaParams: OleVariant): IDataSet; dispid 2;
-    property DBName: WideString readonly dispid 3;
-    property CheckOut: Integer readonly dispid 4;
-    property AppHandle: OLE_HANDLE readonly dispid 5;
-    property ClientHandle: OLE_HANDLE readonly dispid 6;
-    property IdVersion: Integer readonly dispid 7;
-    property stType: WideString readonly dispid 8;
-    property stProduct: WideString readonly dispid 9;
-    property stVersion: WideString readonly dispid 10;
-    property IdParent: Integer readonly dispid 11;
-    property stParentType: WideString readonly dispid 12;
-    property stParentProduct: WideString readonly dispid 13;
-    property stParentVersion: WideString readonly dispid 14;
-    property IdLink: Integer readonly dispid 15;
-    property SelectedParent: WordBool readonly dispid 16;
-    property Selected: IPDMObject readonly dispid 201;
-    property WFSelected: IWFObject readonly dispid 202;
-    property AsyncTask: IAsyncTask readonly dispid 203;
-    property MainHandle: OLE_HANDLE readonly dispid 204;
-  end;
-
-// *********************************************************************//
-// Interface: IDataSet
-// Flags:     (4416) Dual OleAutomation Dispatchable
-// GUID:      {60446488-9D7B-4776-866E-7EE647F72972}
-// *********************************************************************//
-  IDataSet = interface(IDispatch)
-    ['{60446488-9D7B-4776-866E-7EE647F72972}']
-    procedure First; safecall;
-    procedure Last; safecall;
-    procedure Next; safecall;
-    procedure Prior; safecall;
-    function Get_CurrentRecord: Integer; safecall;
-    procedure Set_CurrentRecord(Value: Integer); safecall;
-    function Get_RecordCount: Integer; safecall;
-    function Get_FieldValue(const Name: WideString): OleVariant; safecall;
-    procedure Set_FieldValue(const Name: WideString; Value: OleVariant); safecall;
-    function Get_FieldCount: Integer; safecall;
-    function Get_FieldName(Index: Integer): WideString; safecall;
-    function Get_Filter: WideString; safecall;
-    procedure Set_Filter(const Value: WideString); safecall;
-    function Get_Filtered: WordBool; safecall;
-    procedure Set_Filtered(Value: WordBool); safecall;
-    procedure Append; safecall;
-    procedure Delete; safecall;
-    procedure Edit; safecall;
-    procedure Post; safecall;
-    procedure Cancel; safecall;
-    procedure Insert; safecall;
-    function MoveBy(Distance: Integer): Integer; safecall;
-    function IsEmpty: WordBool; safecall;
-    function Locate(const KeyFields: WideString; KeyValues: OleVariant; CaseSensitive: WordBool; 
-                    PartialKey: WordBool): WordBool; safecall;
-    function Get_DATA: OleVariant; safecall;
-    procedure Set_DATA(Value: OleVariant); safecall;
-    function Get_Eof: WordBool; safecall;
-    function Get_Bof: WordBool; safecall;
-    function Get_IndexFieldNames: WideString; safecall;
-    procedure Set_IndexFieldNames(const Value: WideString); safecall;
-    procedure Clear; safecall;
-    property CurrentRecord: Integer read Get_CurrentRecord write Set_CurrentRecord;
-    property RecordCount: Integer read Get_RecordCount;
-    property FieldValue[const Name: WideString]: OleVariant read Get_FieldValue write Set_FieldValue;
-    property FieldCount: Integer read Get_FieldCount;
-    property FieldName[Index: Integer]: WideString read Get_FieldName;
-    property Filter: WideString read Get_Filter write Set_Filter;
-    property Filtered: WordBool read Get_Filtered write Set_Filtered;
-    property DATA: OleVariant read Get_DATA write Set_DATA;
-    property Eof: WordBool read Get_Eof;
-    property Bof: WordBool read Get_Bof;
-    property IndexFieldNames: WideString read Get_IndexFieldNames write Set_IndexFieldNames;
-  end;
-
-// *********************************************************************//
-// DispIntf:  IDataSetDisp
-// Flags:     (4416) Dual OleAutomation Dispatchable
-// GUID:      {60446488-9D7B-4776-866E-7EE647F72972}
-// *********************************************************************//
-  IDataSetDisp = dispinterface
-    ['{60446488-9D7B-4776-866E-7EE647F72972}']
-    procedure First; dispid 1;
-    procedure Last; dispid 2;
-    procedure Next; dispid 3;
-    procedure Prior; dispid 4;
-    property CurrentRecord: Integer dispid 5;
-    property RecordCount: Integer readonly dispid 7;
-    property FieldValue[const Name: WideString]: OleVariant dispid 9;
-    property FieldCount: Integer readonly dispid 10;
-    property FieldName[Index: Integer]: WideString readonly dispid 11;
-    property Filter: WideString dispid 12;
-    property Filtered: WordBool dispid 13;
-    procedure Append; dispid 14;
-    procedure Delete; dispid 15;
-    procedure Edit; dispid 16;
-    procedure Post; dispid 17;
-    procedure Cancel; dispid 18;
-    procedure Insert; dispid 19;
-    function MoveBy(Distance: Integer): Integer; dispid 20;
-    function IsEmpty: WordBool; dispid 21;
-    function Locate(const KeyFields: WideString; KeyValues: OleVariant; CaseSensitive: WordBool; 
-                    PartialKey: WordBool): WordBool; dispid 22;
-    property DATA: OleVariant dispid 6;
-    property Eof: WordBool readonly dispid 8;
-    property Bof: WordBool readonly dispid 23;
-    property IndexFieldNames: WideString dispid 24;
-    procedure Clear; dispid 201;
-  end;
-
-// *********************************************************************//
-// Interface: IPDMData
-// Flags:     (4416) Dual OleAutomation Dispatchable
-// GUID:      {0EB0573F-D586-4B46-9FB0-F44673455D12}
-// *********************************************************************//
-  IPDMData = interface(IDispatch)
-    ['{0EB0573F-D586-4B46-9FB0-F44673455D12}']
-    function Get_ID: Integer; safecall;
-    function Get_Name: WideString; safecall;
-    function Get_LockLevel: PDMLockLevels; safecall;
-    function Get_AccessLevel: PDMAccessLevels; safecall;
-    property ID: Integer read Get_ID;
-    property Name: WideString read Get_Name;
-    property LockLevel: PDMLockLevels read Get_LockLevel;
-    property AccessLevel: PDMAccessLevels read Get_AccessLevel;
-  end;
-
-// *********************************************************************//
-// DispIntf:  IPDMDataDisp
-// Flags:     (4416) Dual OleAutomation Dispatchable
-// GUID:      {0EB0573F-D586-4B46-9FB0-F44673455D12}
-// *********************************************************************//
-  IPDMDataDisp = dispinterface
-    ['{0EB0573F-D586-4B46-9FB0-F44673455D12}']
-    property ID: Integer readonly dispid 201;
-    property Name: WideString readonly dispid 202;
-    property LockLevel: PDMLockLevels readonly dispid 203;
-    property AccessLevel: PDMAccessLevels readonly dispid 204;
-  end;
-
-// *********************************************************************//
-// Interface: IPDMObject
-// Flags:     (4416) Dual OleAutomation Dispatchable
-// GUID:      {E32BF2D4-529A-4566-88BF-6413B5642718}
-// *********************************************************************//
-  IPDMObject = interface(IDispatch)
-    ['{E32BF2D4-529A-4566-88BF-6413B5642718}']
-    function Get_ID: Integer; safecall;
-    function Get_Name: WideString; safecall;
-    function Get_TypeName: WideString; safecall;
-    function Get_Version: WideString; safecall;
-    function Get_StateName: WideString; safecall;
-    function Get_LockLevel: PDMLockLevels; safecall;
-    function Get_AccessLevel: PDMAccessLevels; safecall;
-    function Get_IsDocument: WordBool; safecall;
-    property ID: Integer read Get_ID;
-    property Name: WideString read Get_Name;
-    property TypeName: WideString read Get_TypeName;
-    property Version: WideString read Get_Version;
-    property StateName: WideString read Get_StateName;
-    property LockLevel: PDMLockLevels read Get_LockLevel;
-    property AccessLevel: PDMAccessLevels read Get_AccessLevel;
-    property IsDocument: WordBool read Get_IsDocument;
-  end;
-
-// *********************************************************************//
-// DispIntf:  IPDMObjectDisp
-// Flags:     (4416) Dual OleAutomation Dispatchable
-// GUID:      {E32BF2D4-529A-4566-88BF-6413B5642718}
-// *********************************************************************//
-  IPDMObjectDisp = dispinterface
-    ['{E32BF2D4-529A-4566-88BF-6413B5642718}']
-    property ID: Integer readonly dispid 201;
-    property Name: WideString readonly dispid 202;
-    property TypeName: WideString readonly dispid 203;
-    property Version: WideString readonly dispid 204;
-    property StateName: WideString readonly dispid 205;
-    property LockLevel: PDMLockLevels readonly dispid 206;
-    property AccessLevel: PDMAccessLevels readonly dispid 207;
-    property IsDocument: WordBool readonly dispid 208;
-  end;
-
-// *********************************************************************//
-// Interface: IPDMDocument
-// Flags:     (4416) Dual OleAutomation Dispatchable
-// GUID:      {693C8331-AE1F-449B-89E8-2165657984E6}
-// *********************************************************************//
-  IPDMDocument = interface(IDispatch)
-    ['{693C8331-AE1F-449B-89E8-2165657984E6}']
-    function Get_ID: Integer; safecall;
-    function Get_Name: WideString; safecall;
-    function Get_TypeName: WideString; safecall;
-    function Get_Version: WideString; safecall;
-    function Get_StateName: WideString; safecall;
-    function Get_Files: IPDMCollection; safecall;
-    function Get_View: IView; safecall;
-    function Get_Annotation: IAnnotation; safecall;
-    function Get_LockLevel: PDMLockLevels; safecall;
-    function Get_AccessLevel: PDMAccessLevels; safecall;
-    property ID: Integer read Get_ID;
-    property Name: WideString read Get_Name;
-    property TypeName: WideString read Get_TypeName;
-    property Version: WideString read Get_Version;
-    property StateName: WideString read Get_StateName;
-    property Files: IPDMCollection read Get_Files;
-    property View: IView read Get_View;
-    property Annotation: IAnnotation read Get_Annotation;
-    property LockLevel: PDMLockLevels read Get_LockLevel;
-    property AccessLevel: PDMAccessLevels read Get_AccessLevel;
-  end;
-
-// *********************************************************************//
-// DispIntf:  IPDMDocumentDisp
-// Flags:     (4416) Dual OleAutomation Dispatchable
-// GUID:      {693C8331-AE1F-449B-89E8-2165657984E6}
-// *********************************************************************//
-  IPDMDocumentDisp = dispinterface
-    ['{693C8331-AE1F-449B-89E8-2165657984E6}']
-    property ID: Integer readonly dispid 201;
-    property Name: WideString readonly dispid 202;
-    property TypeName: WideString readonly dispid 203;
-    property Version: WideString readonly dispid 204;
-    property StateName: WideString readonly dispid 205;
-    property Files: IPDMCollection readonly dispid 206;
-    property View: IView readonly dispid 207;
-    property Annotation: IAnnotation readonly dispid 208;
-    property LockLevel: PDMLockLevels readonly dispid 209;
-    property AccessLevel: PDMAccessLevels readonly dispid 210;
-  end;
-
-// *********************************************************************//
-// Interface: IPDMFile
-// Flags:     (4416) Dual OleAutomation Dispatchable
-// GUID:      {31D155C2-5FC8-40BB-A436-062B1BCBB18E}
-// *********************************************************************//
-  IPDMFile = interface(IDispatch)
-    ['{31D155C2-5FC8-40BB-A436-062B1BCBB18E}']
-    function Get_ID: Integer; safecall;
-    function Get_Name: WideString; safecall;
-    function Get_Path: WideString; safecall;
-    function Get_Size: Integer; safecall;
-    function Get_Created: TDateTime; safecall;
-    function Get_Modified: TDateTime; safecall;
-    function Load: WideString; safecall;
-    function Get_LockLevel: PDMLockLevels; safecall;
-    function Get_AccessLevel: PDMAccessLevels; safecall;
-    function Get_LocalName: WideString; safecall;
-    property ID: Integer read Get_ID;
-    property Name: WideString read Get_Name;
-    property Path: WideString read Get_Path;
-    property Size: Integer read Get_Size;
-    property Created: TDateTime read Get_Created;
-    property Modified: TDateTime read Get_Modified;
-    property LockLevel: PDMLockLevels read Get_LockLevel;
-    property AccessLevel: PDMAccessLevels read Get_AccessLevel;
-    property LocalName: WideString read Get_LocalName;
-  end;
-
-// *********************************************************************//
-// DispIntf:  IPDMFileDisp
-// Flags:     (4416) Dual OleAutomation Dispatchable
-// GUID:      {31D155C2-5FC8-40BB-A436-062B1BCBB18E}
-// *********************************************************************//
-  IPDMFileDisp = dispinterface
-    ['{31D155C2-5FC8-40BB-A436-062B1BCBB18E}']
-    property ID: Integer readonly dispid 201;
-    property Name: WideString readonly dispid 202;
-    property Path: WideString readonly dispid 203;
-    property Size: Integer readonly dispid 204;
-    property Created: TDateTime readonly dispid 205;
-    property Modified: TDateTime readonly dispid 206;
-    function Load: WideString; dispid 207;
-    property LockLevel: PDMLockLevels readonly dispid 208;
-    property AccessLevel: PDMAccessLevels readonly dispid 209;
-    property LocalName: WideString readonly dispid 210;
-  end;
-
-// *********************************************************************//
-// Interface: IPDMCollection
-// Flags:     (4416) Dual OleAutomation Dispatchable
-// GUID:      {D6656545-D515-4096-8CEE-89A58223BEA5}
-// *********************************************************************//
-  IPDMCollection = interface(IDispatch)
-    ['{D6656545-D515-4096-8CEE-89A58223BEA5}']
-    function Get_Items(Index: Integer): IPDMData; safecall;
-    function Get_Count: Integer; safecall;
-    function ItemByName(const ItemName: WideString): IPDMData; safecall;
-    property Items[Index: Integer]: IPDMData read Get_Items;
-    property Count: Integer read Get_Count;
-  end;
-
-// *********************************************************************//
-// DispIntf:  IPDMCollectionDisp
-// Flags:     (4416) Dual OleAutomation Dispatchable
-// GUID:      {D6656545-D515-4096-8CEE-89A58223BEA5}
-// *********************************************************************//
-  IPDMCollectionDisp = dispinterface
-    ['{D6656545-D515-4096-8CEE-89A58223BEA5}']
-    property Items[Index: Integer]: IPDMData readonly dispid 201;
-    property Count: Integer readonly dispid 202;
-    function ItemByName(const ItemName: WideString): IPDMData; dispid 203;
-  end;
-
-// *********************************************************************//
-// Interface: IView
-// Flags:     (4416) Dual OleAutomation Dispatchable
-// GUID:      {3A337EF0-BB86-4F60-B577-699192922B3A}
-// *********************************************************************//
-  IView = interface(IDispatch)
-    ['{3A337EF0-BB86-4F60-B577-699192922B3A}']
-    function Load: WideString; safecall;
-    procedure Save; safecall;
-    procedure Delete; safecall;
-    function Get_FileName: WideString; safecall;
-    function NewFile(const FileExt: WideString): WideString; safecall;
-    property FileName: WideString read Get_FileName;
-  end;
-
-// *********************************************************************//
-// DispIntf:  IViewDisp
-// Flags:     (4416) Dual OleAutomation Dispatchable
-// GUID:      {3A337EF0-BB86-4F60-B577-699192922B3A}
-// *********************************************************************//
-  IViewDisp = dispinterface
-    ['{3A337EF0-BB86-4F60-B577-699192922B3A}']
-    function Load: WideString; dispid 201;
-    procedure Save; dispid 202;
-    procedure Delete; dispid 203;
-    property FileName: WideString readonly dispid 204;
-    function NewFile(const FileExt: WideString): WideString; dispid 205;
-  end;
-
-// *********************************************************************//
-// Interface: IAnnotation
-// Flags:     (4416) Dual OleAutomation Dispatchable
-// GUID:      {09741CE4-5386-4037-8DFC-B83628AAE723}
-// *********************************************************************//
-  IAnnotation = interface(IDispatch)
-    ['{09741CE4-5386-4037-8DFC-B83628AAE723}']
-    function Load: WideString; safecall;
-    procedure Save; safecall;
-    procedure Delete; safecall;
-    function Get_FileName: WideString; safecall;
-    function Get_Locked: WordBool; safecall;
-    procedure Set_Locked(Value: WordBool); safecall;
-    function NewFile(const FileExt: WideString): WideString; safecall;
-    function Get_LockLevel: PDMLockLevels; safecall;
-    property FileName: WideString read Get_FileName;
-    property Locked: WordBool read Get_Locked write Set_Locked;
-    property LockLevel: PDMLockLevels read Get_LockLevel;
-  end;
-
-// *********************************************************************//
-// DispIntf:  IAnnotationDisp
-// Flags:     (4416) Dual OleAutomation Dispatchable
-// GUID:      {09741CE4-5386-4037-8DFC-B83628AAE723}
-// *********************************************************************//
-  IAnnotationDisp = dispinterface
-    ['{09741CE4-5386-4037-8DFC-B83628AAE723}']
-    function Load: WideString; dispid 201;
-    procedure Save; dispid 202;
-    procedure Delete; dispid 203;
-    property FileName: WideString readonly dispid 204;
-    property Locked: WordBool dispid 205;
-    function NewFile(const FileExt: WideString): WideString; dispid 206;
-    property LockLevel: PDMLockLevels readonly dispid 207;
+    property ServerName: WideString read Get_ServerName;
+    property ParentObject: IPDMObject read Get_ParentObject;
+    property LinkName: WideString read Get_LinkName;
+    property Content: IContent read Get_Content;
+    property WBSSystem: IDispatch read Get_WBSSystem;
   end;
 
 // *********************************************************************//
@@ -1293,55 +658,6 @@ type
   end;
 
 // *********************************************************************//
-// DispIntf:  IDocumentViewerDisp
-// Flags:     (4416) Dual OleAutomation Dispatchable
-// GUID:      {27B59D50-87FA-4017-B8C1-5F02D90EF1E7}
-// *********************************************************************//
-  IDocumentViewerDisp = dispinterface
-    ['{27B59D50-87FA-4017-B8C1-5F02D90EF1E7}']
-    procedure Init(const DBWindow: IDBWindow); dispid 201;
-    procedure Finalize; dispid 202;
-    procedure Clear; dispid 203;
-    procedure Refresh(const PDMDocument: IPDMDocument); dispid 204;
-    procedure Command(DocumentCommand: DocumentViewerCommands; MainWindow: OLE_HANDLE); dispid 205;
-    property Document: IPDMDocument readonly dispid 206;
-    property Features: Integer readonly dispid 207;
-  end;
-
-// *********************************************************************//
-// Interface: ILoodsmanUser
-// Flags:     (4416) Dual OleAutomation Dispatchable
-// GUID:      {24D25D51-3044-4D0E-AFCF-DB6471487BF5}
-// *********************************************************************//
-  ILoodsmanUser = interface(IDispatch)
-    ['{24D25D51-3044-4D0E-AFCF-DB6471487BF5}']
-    function Get_Name: WideString; safecall;
-    function Get_FullName: WideString; safecall;
-    function Get_EMail: WideString; safecall;
-    function Get_ID: Integer; safecall;
-    function Get_Features: Integer; safecall;
-    property Name: WideString read Get_Name;
-    property FullName: WideString read Get_FullName;
-    property EMail: WideString read Get_EMail;
-    property ID: Integer read Get_ID;
-    property Features: Integer read Get_Features;
-  end;
-
-// *********************************************************************//
-// DispIntf:  ILoodsmanUserDisp
-// Flags:     (4416) Dual OleAutomation Dispatchable
-// GUID:      {24D25D51-3044-4D0E-AFCF-DB6471487BF5}
-// *********************************************************************//
-  ILoodsmanUserDisp = dispinterface
-    ['{24D25D51-3044-4D0E-AFCF-DB6471487BF5}']
-    property Name: WideString readonly dispid 201;
-    property FullName: WideString readonly dispid 202;
-    property EMail: WideString readonly dispid 203;
-    property ID: Integer readonly dispid 204;
-    property Features: Integer readonly dispid 205;
-  end;
-
-// *********************************************************************//
 // Interface: IDataBase
 // Flags:     (4416) Dual OleAutomation Dispatchable
 // GUID:      {84555B43-9101-41CA-AAB3-0F176A0AF30C}
@@ -1350,19 +666,13 @@ type
     ['{84555B43-9101-41CA-AAB3-0F176A0AF30C}']
     function Get_Name: WideString; safecall;
     function Get_CurrentUser: ILoodsmanUser; safecall;
+    function Get_MaxLabel: Integer; safecall;
+    function CheckoutObjects(IDs: OleVariant; const ACheckOut: WideString; AAddToRoot: WordBool): WideString; safecall;
+    function Get_ReadOnlyDB: WordBool; safecall;
     property Name: WideString read Get_Name;
     property CurrentUser: ILoodsmanUser read Get_CurrentUser;
-  end;
-
-// *********************************************************************//
-// DispIntf:  IDataBaseDisp
-// Flags:     (4416) Dual OleAutomation Dispatchable
-// GUID:      {84555B43-9101-41CA-AAB3-0F176A0AF30C}
-// *********************************************************************//
-  IDataBaseDisp = dispinterface
-    ['{84555B43-9101-41CA-AAB3-0F176A0AF30C}']
-    property Name: WideString readonly dispid 201;
-    property CurrentUser: ILoodsmanUser readonly dispid 202;
+    property MaxLabel: Integer read Get_MaxLabel;
+    property ReadOnlyDB: WordBool read Get_ReadOnlyDB;
   end;
 
 // *********************************************************************//
@@ -1375,267 +685,384 @@ type
     function Get_DataBase: IDataBase; safecall;
     function Get_CheckOutMode: WordBool; safecall;
     function Get_WindowHandle: OLE_HANDLE; safecall;
+    procedure Close; safecall;
+    function Get_Context: IDBContext; safecall;
+    procedure Activate; safecall;
+    function Get_Content: IContent; safecall;
     property DataBase: IDataBase read Get_DataBase;
     property CheckOutMode: WordBool read Get_CheckOutMode;
     property WindowHandle: OLE_HANDLE read Get_WindowHandle;
+    property Context: IDBContext read Get_Context;
+    property Content: IContent read Get_Content;
   end;
 
 // *********************************************************************//
-// DispIntf:  IDBWindowDisp
+// Interface: IDBContext
 // Flags:     (4416) Dual OleAutomation Dispatchable
-// GUID:      {8A2DF0A5-19C6-4B21-AD73-7F8718CA37EE}
+// GUID:      {58BAB84A-4E14-4D67-A29E-6FF764FD9FFA}
 // *********************************************************************//
-  IDBWindowDisp = dispinterface
-    ['{8A2DF0A5-19C6-4B21-AD73-7F8718CA37EE}']
-    property DataBase: IDataBase readonly dispid 201;
-    property CheckOutMode: WordBool readonly dispid 202;
-    property WindowHandle: OLE_HANDLE readonly dispid 203;
+  IDBContext = interface(IDispatch)
+    ['{58BAB84A-4E14-4D67-A29E-6FF764FD9FFA}']
+    function Get_ContextType: Integer; safecall;
+    function GetContextValue(const AValueName: WideString): OleVariant; safecall;
+    function Get_Connection: IDispatch; safecall;
+    function Get_WBSSystem: IDispatch; safecall;
+    procedure SetContextValue(const AValueName: WideString; AValue: OleVariant); safecall;
+    function Get_ValueCount: Integer; safecall;
+    function GetValueName(AIndex: Integer): WideString; safecall;
+    function IsEqual(const AContext: IDBContext): WordBool; safecall;
+    property ContextType: Integer read Get_ContextType;
+    property Connection: IDispatch read Get_Connection;
+    property WBSSystem: IDispatch read Get_WBSSystem;
+    property ValueCount: Integer read Get_ValueCount;
   end;
 
 // *********************************************************************//
-// Interface: IWFObject
+// Interface: ILoodsmanApplication
 // Flags:     (4416) Dual OleAutomation Dispatchable
-// GUID:      {7D2F6E4D-0552-475A-BE96-734DC993414B}
+// GUID:      {C50527B3-98D4-4C81-BE85-8D9B04A625FC}
 // *********************************************************************//
-  IWFObject = interface(IDispatch)
-    ['{7D2F6E4D-0552-475A-BE96-734DC993414B}']
-    function Get_ID: Integer; safecall;
-    function Get_ObjectType: WFObjectTypes; safecall;
-    property ID: Integer read Get_ID;
-    property ObjectType: WFObjectTypes read Get_ObjectType;
+  ILoodsmanApplication = interface(IDispatch)
+    ['{C50527B3-98D4-4C81-BE85-8D9B04A625FC}']
+    procedure SetVisible(Value: WordBool); safecall;
+    function GetVisible: WordBool; safecall;
+    procedure Quit; safecall;
+    procedure Activate; safecall;
+    procedure Minimize; safecall;
+    procedure Maximize; safecall;
+    procedure Restore; safecall;
+    function GetPlugin(Index: Integer): ILoodsmanPlugin; safecall;
+    function GetPluginByName(const Name: WideString): ILoodsmanPlugin; safecall;
+    procedure NotifyUser(const Header: WideString; const Text: WideString; NotifyKind: Integer; 
+                         Reserved: Integer); safecall;
+    procedure TileWindows(ATileMode: Integer); safecall;
+    procedure CascadeWindows; safecall;
+    function Get_ActiveWindow: IDBWindow; safecall;
+    function Get_MainHandle: OLE_HANDLE; safecall;
+    function Get_PluginCount: Integer; safecall;
+    function Get_WindowCount: Integer; safecall;
+    function GetWindow(Index: Integer): IDBWindow; safecall;
+    function Get_AppHandle: OLE_HANDLE; safecall;
+    function CreateWindow(const ACaption: WideString; const AContext: IDBContext; 
+                          const ACLSID: WideString; AFlags: Integer): IDBWindow; safecall;
+    function CreateContext(AContextType: Integer; const ACheckOut: WideString; AData: Integer): IDBContext; safecall;
+    function FindWindow(const AContext: IDBContext; const ACLSID: WideString; AFlags: Integer): IDBWindow; safecall;
+    function Get_DataBase: IDataBase; safecall;
+    function OpenDatabase(const DBName: WideString; Params: OleVariant): WordBool; safecall;
+    procedure CloseDatabase; safecall;
+    procedure SendNotification(const Source: WideString; NotifyType: Integer; 
+                               const NotifyCategory: WideString; DataType: Integer; 
+                               DATA: OleVariant; const CheckOut: WideString); safecall;
+    procedure AddNotificationHandler(const NotificationIntf: INotificationHandler; 
+                                     NotifyType: Integer; const NotifyCategory: WideString; 
+                                     DataType: Integer); safecall;
+    procedure RemoveNotificationHandler(const NotificationIntf: INotificationHandler; 
+                                        NotifyType: Integer; const NotifyCategory: WideString; 
+                                        DataType: Integer); safecall;
+    function Get_Title: WideString; safecall;
+    function Get_Actions: IActions; safecall;
+    function FindService(AIntfID: TGUID; BindedOnly: WordBool): IDispatch; safecall;
+    function ShowWindow(const ACaption: WideString; const AContext: IDBContext; 
+                        const ACLSID: WideString; AFlags: Integer): IDBWindow; safecall;
+    function OpenURL(const URLString: WideString; Flags: Integer): Integer; safecall;
+    function Get_FilePath: WideString; safecall;
+    procedure AddActionHandler(const ActionHandler: IActionHandler; ActionCommand: Integer; 
+                               Priority: Integer; DataDependent: WordBool); safecall;
+    procedure RemoveActionHandler(const ActionHandler: IActionHandler; ActionCommand: Integer); safecall;
+    function Get_HelpPath: WideString; safecall;
+    function Get_SessionSecurityLabel: Integer; safecall;
+    function Get_TypeIconsOffset: Integer; safecall;
+    function GetTypeIconIndex(ATypeID: Integer): Integer; safecall;
+    function OpenCheckout(const ACheckOut: WideString): IDBWindow; safecall;
+    property ActiveWindow: IDBWindow read Get_ActiveWindow;
+    property MainHandle: OLE_HANDLE read Get_MainHandle;
+    property PluginCount: Integer read Get_PluginCount;
+    property WindowCount: Integer read Get_WindowCount;
+    property AppHandle: OLE_HANDLE read Get_AppHandle;
+    property DataBase: IDataBase read Get_DataBase;
+    property Title: WideString read Get_Title;
+    property Actions: IActions read Get_Actions;
+    property FilePath: WideString read Get_FilePath;
+    property HelpPath: WideString read Get_HelpPath;
+    property SessionSecurityLabel: Integer read Get_SessionSecurityLabel;
+    property TypeIconsOffset: Integer read Get_TypeIconsOffset;
   end;
 
 // *********************************************************************//
-// DispIntf:  IWFObjectDisp
+// Interface: IActions
 // Flags:     (4416) Dual OleAutomation Dispatchable
-// GUID:      {7D2F6E4D-0552-475A-BE96-734DC993414B}
+// GUID:      {22C267CC-D48E-43F0-94B9-AF03C949D103}
 // *********************************************************************//
-  IWFObjectDisp = dispinterface
-    ['{7D2F6E4D-0552-475A-BE96-734DC993414B}']
-    property ID: Integer readonly dispid 201;
-    property ObjectType: WFObjectTypes readonly dispid 202;
+  IActions = interface(IDispatch)
+    ['{22C267CC-D48E-43F0-94B9-AF03C949D103}']
+    procedure SetActionEnabled(ActionCommand: Integer; ActionEnabled: WordBool); safecall;
+    function IsActionEnabled(ActionCommand: Integer): WordBool; safecall;
+    function ExecuteAction(ActionCommand: Integer; ActionData: OleVariant; 
+                           var ActionResultData: OleVariant): ActionResults; safecall;
+    function CreateAction(const ActionCaption: WideString; const ActionHint: WideString; 
+                          const ActionShortcut: WideString; ActionIconIndex: Integer; 
+                          ActionIcon: OleVariant): Integer; safecall;
+    procedure SetActionVisible(ActionCommand: Integer; ActionVisible: WordBool); safecall;
+    function IsActionVisible(ActionCommand: Integer): WordBool; safecall;
   end;
 
 // *********************************************************************//
-// Interface: IWFRoute
+// Interface: ILoodsmanPlugin
 // Flags:     (4416) Dual OleAutomation Dispatchable
-// GUID:      {85206128-062B-4058-8795-4AF30ACBA67B}
+// GUID:      {8A0AD8A6-791D-4211-B6B0-A8C25FA33209}
 // *********************************************************************//
-  IWFRoute = interface(IDispatch)
-    ['{85206128-062B-4058-8795-4AF30ACBA67B}']
-    function Get_ID: Integer; safecall;
-    function Get_Name: WideString; safecall;
-    function Get_Created: TDateTime; safecall;
-    function Get_Changed: TDateTime; safecall;
-    function Get_Locked: WordBool; safecall;
-    function Get_RunDate: TDateTime; safecall;
-    function Get_Text: IRTFText; safecall;
-    function Get_Initiator: ILoodsmanUser; safecall;
-    function Get_TypicalRoute: IWFRoute; safecall;
-    function Get_State: WFRouteStates; safecall;
-    function Get_ParentRoute: IWFRoute; safecall;
-    function Get_PDMObject: IPDMObject; safecall;
-    function Get_IsTypical: WordBool; safecall;
-    property ID: Integer read Get_ID;
-    property Name: WideString read Get_Name;
-    property Created: TDateTime read Get_Created;
-    property Changed: TDateTime read Get_Changed;
-    property Locked: WordBool read Get_Locked;
-    property RunDate: TDateTime read Get_RunDate;
-    property Text: IRTFText read Get_Text;
-    property Initiator: ILoodsmanUser read Get_Initiator;
-    property TypicalRoute: IWFRoute read Get_TypicalRoute;
-    property State: WFRouteStates read Get_State;
-    property ParentRoute: IWFRoute read Get_ParentRoute;
-    property PDMObject: IPDMObject read Get_PDMObject;
-    property IsTypical: WordBool read Get_IsTypical;
+  ILoodsmanPlugin = interface(IDispatch)
+    ['{8A0AD8A6-791D-4211-B6B0-A8C25FA33209}']
+    function GetName: WideString; safecall;
+    function GetPath: WideString; safecall;
+    function GetCommandCount: Integer; safecall;
+    function GetCommandCaption(Index: Integer): WideString; safecall;
+    function GetCommandName(Index: Integer): WideString; safecall;
+    function ExecCommand(const ACommandName: WideString): OleVariant; safecall;
   end;
 
 // *********************************************************************//
-// DispIntf:  IWFRouteDisp
+// Interface: IFrameInfo
 // Flags:     (4416) Dual OleAutomation Dispatchable
-// GUID:      {85206128-062B-4058-8795-4AF30ACBA67B}
+// GUID:      {3002A3EA-E245-441E-BE6F-4E9878EDE382}
 // *********************************************************************//
-  IWFRouteDisp = dispinterface
-    ['{85206128-062B-4058-8795-4AF30ACBA67B}']
-    property ID: Integer readonly dispid 201;
-    property Name: WideString readonly dispid 202;
-    property Created: TDateTime readonly dispid 203;
-    property Changed: TDateTime readonly dispid 204;
-    property Locked: WordBool readonly dispid 205;
-    property RunDate: TDateTime readonly dispid 206;
-    property Text: IRTFText readonly dispid 207;
-    property Initiator: ILoodsmanUser readonly dispid 208;
-    property TypicalRoute: IWFRoute readonly dispid 209;
-    property State: WFRouteStates readonly dispid 210;
-    property ParentRoute: IWFRoute readonly dispid 211;
-    property PDMObject: IPDMObject readonly dispid 212;
-    property IsTypical: WordBool readonly dispid 213;
+  IFrameInfo = interface(IDispatch)
+    ['{3002A3EA-E245-441E-BE6F-4E9878EDE382}']
+    function GetInTypes: WideString; safecall;
+    function GetOutType: Integer; safecall;
+    function GetFrameName: WideString; safecall;
+    function GetFrameDescription: WideString; safecall;
+    function IsRootFrame: WordBool; safecall;
   end;
 
 // *********************************************************************//
-// Interface: IWFTask
+// Interface: ILoodsmanFrame
 // Flags:     (4416) Dual OleAutomation Dispatchable
-// GUID:      {48A0BE87-BAB6-4776-8EEC-69AACEC9A40C}
+// GUID:      {43151655-95CC-40B4-9D92-A95E8DF52043}
 // *********************************************************************//
-  IWFTask = interface(IDispatch)
-    ['{48A0BE87-BAB6-4776-8EEC-69AACEC9A40C}']
-    function Get_ID: Integer; safecall;
-    function Get_Text: IRTFText; safecall;
-    function Get_TransformationEnabled: WordBool; safecall;
-    function Get_SendDate: TDateTime; safecall;
-    function Get_StartDate: TDateTime; safecall;
-    function Get_StopDate: TDateTime; safecall;
-    function Get_State: WFTaskStates; safecall;
-    function Get_TaskType: WFTaskTypes; safecall;
-    function Get_Route: IWFRoute; safecall;
-    function Get_User: ILoodsmanUser; safecall;
-    function Get_Term: ITaskTerm; safecall;
-    function Get_Role: WFRole; safecall;
-    function Get_ChildRoute: IWFRoute; safecall;
-    property ID: Integer read Get_ID;
-    property Text: IRTFText read Get_Text;
-    property TransformationEnabled: WordBool read Get_TransformationEnabled;
-    property SendDate: TDateTime read Get_SendDate;
-    property StartDate: TDateTime read Get_StartDate;
-    property StopDate: TDateTime read Get_StopDate;
-    property State: WFTaskStates read Get_State;
-    property TaskType: WFTaskTypes read Get_TaskType;
-    property Route: IWFRoute read Get_Route;
-    property User: ILoodsmanUser read Get_User;
-    property Term: ITaskTerm read Get_Term;
-    property Role: WFRole read Get_Role;
-    property ChildRoute: IWFRoute read Get_ChildRoute;
+  ILoodsmanFrame = interface(IDispatch)
+    ['{43151655-95CC-40B4-9D92-A95E8DF52043}']
+    procedure OnFrameCreate(const Context: IDBContext; const Container: IFrameContainer; 
+                            const OwnerApplication: IDispatch); safecall;
+    procedure OnFrameDestroy; safecall;
+    procedure OnFrameActivate; safecall;
+    procedure OnFrameDeactivate; safecall;
+    procedure OnStartRefresh; safecall;
+    procedure OnFrameClear; safecall;
+    function OnCustomEvent(EventCode: Integer; EventData: OleVariant): OleVariant; safecall;
+    procedure OnLoadOptions(const AFrameOptions: IOptions); safecall;
+    procedure OnSaveOptions(const AFrameOptions: IOptions); safecall;
   end;
 
 // *********************************************************************//
-// DispIntf:  IWFTaskDisp
+// Interface: IFrameContainer
 // Flags:     (4416) Dual OleAutomation Dispatchable
-// GUID:      {48A0BE87-BAB6-4776-8EEC-69AACEC9A40C}
+// GUID:      {540CAE0E-987D-4429-837D-1A4A9A28192F}
 // *********************************************************************//
-  IWFTaskDisp = dispinterface
-    ['{48A0BE87-BAB6-4776-8EEC-69AACEC9A40C}']
-    property ID: Integer readonly dispid 201;
-    property Text: IRTFText readonly dispid 202;
-    property TransformationEnabled: WordBool readonly dispid 203;
-    property SendDate: TDateTime readonly dispid 204;
-    property StartDate: TDateTime readonly dispid 205;
-    property StopDate: TDateTime readonly dispid 206;
-    property State: WFTaskStates readonly dispid 207;
-    property TaskType: WFTaskTypes readonly dispid 208;
-    property Route: IWFRoute readonly dispid 209;
-    property User: ILoodsmanUser readonly dispid 210;
-    property Term: ITaskTerm readonly dispid 211;
-    property Role: {??WFRole}OleVariant readonly dispid 212;
-    property ChildRoute: IWFRoute readonly dispid 213;
+  IFrameContainer = interface(IDispatch)
+    ['{540CAE0E-987D-4429-837D-1A4A9A28192F}']
+    function Get_ParentFrame: IFrameContainer; safecall;
+    procedure StartRefresh(AChildrenOnly: WordBool); safecall;
+    function Get_IsRoot: WordBool; safecall;
+    function Get_Content: IContent; safecall;
+    procedure ChangeContent(DefaultTimeout: WordBool; Timeout: SYSUINT); safecall;
+    function Get_Level: Integer; safecall;
+    function Get_FrameKey: WideString; safecall;
+    function Get_Editing: WordBool; safecall;
+    function Get_LayoutName: WideString; safecall;
+    procedure Validate(AValid: WordBool); safecall;
+    property ParentFrame: IFrameContainer read Get_ParentFrame;
+    property IsRoot: WordBool read Get_IsRoot;
+    property Content: IContent read Get_Content;
+    property Level: Integer read Get_Level;
+    property FrameKey: WideString read Get_FrameKey;
+    property Editing: WordBool read Get_Editing;
+    property LayoutName: WideString read Get_LayoutName;
   end;
 
 // *********************************************************************//
-// Interface: ITaskTerm
+// Interface: IContent
 // Flags:     (4416) Dual OleAutomation Dispatchable
-// GUID:      {8A4B5F2B-EDEA-4B6B-BA13-938232E9627F}
+// GUID:      {3F471E54-37F4-43C6-BA40-28FFCB2892DB}
 // *********************************************************************//
-  ITaskTerm = interface(IDispatch)
-    ['{8A4B5F2B-EDEA-4B6B-BA13-938232E9627F}']
-    function Get_Expired: WordBool; safecall;
-    function Get_DateConstraint: TDateTime; safecall;
-    function Get_TimeConstraint: Integer; safecall;
-    function Get_TimeLimit: Integer; safecall;
-    function Get_FromRouteStart: WordBool; safecall;
-    function Get_TextValue: WideString; safecall;
-    property Expired: WordBool read Get_Expired;
-    property DateConstraint: TDateTime read Get_DateConstraint;
-    property TimeConstraint: Integer read Get_TimeConstraint;
-    property TimeLimit: Integer read Get_TimeLimit;
-    property FromRouteStart: WordBool read Get_FromRouteStart;
-    property TextValue: WideString read Get_TextValue;
+  IContent = interface(IDispatch)
+    ['{3F471E54-37F4-43C6-BA40-28FFCB2892DB}']
+    function Get_Selected: OleVariant; safecall;
+    function Get_Focused: OleVariant; safecall;
+    function Get_SelectedCount: Integer; safecall;
+    function SelectedByIndex(AIndex: Integer): OleVariant; safecall;
+    function Get_ContentType: Integer; safecall;
+    function Get_ItemCount: Integer; safecall;
+    function ItemByIndex(AIndex: Integer): OleVariant; safecall;
+    property Selected: OleVariant read Get_Selected;
+    property Focused: OleVariant read Get_Focused;
+    property SelectedCount: Integer read Get_SelectedCount;
+    property ContentType: Integer read Get_ContentType;
+    property ItemCount: Integer read Get_ItemCount;
   end;
 
 // *********************************************************************//
-// DispIntf:  ITaskTermDisp
+// Interface: IOptions
 // Flags:     (4416) Dual OleAutomation Dispatchable
-// GUID:      {8A4B5F2B-EDEA-4B6B-BA13-938232E9627F}
+// GUID:      {F64CF2A2-E862-4365-B20F-19E9A5BE0038}
 // *********************************************************************//
-  ITaskTermDisp = dispinterface
-    ['{8A4B5F2B-EDEA-4B6B-BA13-938232E9627F}']
-    property Expired: WordBool readonly dispid 201;
-    property DateConstraint: TDateTime readonly dispid 202;
-    property TimeConstraint: Integer readonly dispid 203;
-    property TimeLimit: Integer readonly dispid 204;
-    property FromRouteStart: WordBool readonly dispid 205;
-    property TextValue: WideString readonly dispid 206;
+  IOptions = interface(IDispatch)
+    ['{F64CF2A2-E862-4365-B20F-19E9A5BE0038}']
+    procedure SetValue(const ASectionName: WideString; const AValueName: WideString; 
+                       AValue: OleVariant); safecall;
+    function GetValue(const ASectionName: WideString; const AValueName: WideString; 
+                      ADefaultValue: OleVariant): OleVariant; safecall;
+    procedure DeleteSection(const ASectionName: WideString); safecall;
+    procedure DeleteValue(const ASectionName: WideString; const AValueName: WideString; 
+                          ADeleteEmptySection: WordBool); safecall;
+    function SectionExists(const ASectionName: WideString): WordBool; safecall;
+    function ValueExists(const ASectionName: WideString; const AValueName: WideString): WordBool; safecall;
   end;
 
 // *********************************************************************//
-// Interface: IAsyncTask
+// Interface: IActionHandler
 // Flags:     (4416) Dual OleAutomation Dispatchable
-// GUID:      {A3CBA7B0-2E12-44CA-9BEB-39D269AC30BD}
+// GUID:      {9827725B-F4DE-4EDA-B37D-2C09710722B5}
 // *********************************************************************//
-  IAsyncTask = interface(IDispatch)
-    ['{A3CBA7B0-2E12-44CA-9BEB-39D269AC30BD}']
-    function Run(const MethodName: WideString; Params: OleVariant; 
-                 const CallBackIntf: IPluginCallBack; Tag: Integer): Integer; safecall;
-    procedure Cancel(TaskID: Integer); safecall;
-    procedure CancelAll; safecall;
+  IActionHandler = interface(IDispatch)
+    ['{9827725B-F4DE-4EDA-B37D-2C09710722B5}']
+    procedure OnActionExecute(ActionCommand: Integer; ActionData: OleVariant; 
+                              var ActionResultData: OleVariant; out ActionResult: ActionResults); safecall;
+    procedure OnCheckActions(const Actions: IActions); safecall;
   end;
 
 // *********************************************************************//
-// DispIntf:  IAsyncTaskDisp
+// Interface: IApplicationMenu
 // Flags:     (4416) Dual OleAutomation Dispatchable
-// GUID:      {A3CBA7B0-2E12-44CA-9BEB-39D269AC30BD}
+// GUID:      {9758DAA9-74D9-4A13-95EB-356F3FE66073}
 // *********************************************************************//
-  IAsyncTaskDisp = dispinterface
-    ['{A3CBA7B0-2E12-44CA-9BEB-39D269AC30BD}']
-    function Run(const MethodName: WideString; Params: OleVariant; 
-                 const CallBackIntf: IPluginCallBack; Tag: Integer): Integer; dispid 201;
-    procedure Cancel(TaskID: Integer); dispid 202;
-    procedure CancelAll; dispid 204;
+  IApplicationMenu = interface(IDispatch)
+    ['{9758DAA9-74D9-4A13-95EB-356F3FE66073}']
+    function GetMenuBar(AIndex: Integer; ABarType: Integer): IMenuBar; safecall;
+    function GetMenuBarByText(const AText: WideString; ABarType: Integer; ACreate: WordBool): IMenuBar; safecall;
+    function CreateMenuItem(const MenuItemID: WideString; const MenuCaption: WideString; 
+                            MenuItemType: MenuItemTypes; const Description: WideString; 
+                            ActionCommand: Integer): Integer; safecall;
+    function MenuItemExists(const MenuItemID: WideString): WordBool; safecall;
+    function GetMenuBarCount(ABarType: Integer): Integer; safecall;
+    function GetItemByText(const AText: WideString): IMenuItem; safecall;
   end;
 
 // *********************************************************************//
-// Interface: IPluginCallBack
+// Interface: INotification
 // Flags:     (4416) Dual OleAutomation Dispatchable
-// GUID:      {9C6DAF55-8F9D-4AB6-B151-F83E317480E5}
+// GUID:      {753BE7FF-88BB-446A-92C0-BE79EFA7400C}
 // *********************************************************************//
-  IPluginCallBack = interface(IDispatch)
-    ['{9C6DAF55-8F9D-4AB6-B151-F83E317480E5}']
-    procedure CallBackProc(TaskID: Integer; ResultData: OleVariant; const DataSet: IDataSet; 
-                           const ErrorMsg: WideString; Tag: Integer); safecall;
+  INotification = interface(IDispatch)
+    ['{753BE7FF-88BB-446A-92C0-BE79EFA7400C}']
+    function Get_NotifyType: Integer; safecall;
+    function Get_NotifyCategory: WideString; safecall;
+    function Get_DataType: Integer; safecall;
+    function Get_DATA: OleVariant; safecall;
+    function Get_CheckOut: WideString; safecall;
+    function Get_Source: WideString; safecall;
+    property NotifyType: Integer read Get_NotifyType;
+    property NotifyCategory: WideString read Get_NotifyCategory;
+    property DataType: Integer read Get_DataType;
+    property DATA: OleVariant read Get_DATA;
+    property CheckOut: WideString read Get_CheckOut;
+    property Source: WideString read Get_Source;
   end;
 
 // *********************************************************************//
-// DispIntf:  IPluginCallBackDisp
+// Interface: INotificationHandler
 // Flags:     (4416) Dual OleAutomation Dispatchable
-// GUID:      {9C6DAF55-8F9D-4AB6-B151-F83E317480E5}
+// GUID:      {52A780D4-B5CA-4A30-9CBE-739D98F9D528}
 // *********************************************************************//
-  IPluginCallBackDisp = dispinterface
-    ['{9C6DAF55-8F9D-4AB6-B151-F83E317480E5}']
-    procedure CallBackProc(TaskID: Integer; ResultData: OleVariant; const DataSet: IDataSet; 
-                           const ErrorMsg: WideString; Tag: Integer); dispid 201;
+  INotificationHandler = interface(IDispatch)
+    ['{52A780D4-B5CA-4A30-9CBE-739D98F9D528}']
+    procedure OnNotify(const Notification: INotification); safecall;
   end;
 
 // *********************************************************************//
-// Interface: IRTFText
+// Interface: IMenuBar
 // Flags:     (4416) Dual OleAutomation Dispatchable
-// GUID:      {ACCC7902-EE75-474E-AD45-544086136A68}
+// GUID:      {6FC203EF-B841-47E1-962B-E7B0DCA1EA4D}
 // *********************************************************************//
-  IRTFText = interface(IDispatch)
-    ['{ACCC7902-EE75-474E-AD45-544086136A68}']
-    function Get_Value: WideString; safecall;
-    procedure Set_Value(const Value: WideString); safecall;
-    function ToPlain: WideString; safecall;
-    property Value: WideString read Get_Value write Set_Value;
+  IMenuBar = interface(IDispatch)
+    ['{6FC203EF-B841-47E1-962B-E7B0DCA1EA4D}']
+    function Get_Caption: WideString; safecall;
+    function Get_Visible: WordBool; safecall;
+    procedure Set_Visible(Value: WordBool); safecall;
+    function Get_MenuItemCount: Integer; safecall;
+    function GetMenuItem(AIndex: Integer): IMenuItem; safecall;
+    function AddMenuItem(const MenuItemID: WideString; Index: Integer; BeginGroup: WordBool): IMenuItem; safecall;
+    function GetItemByText(const AText: WideString): IMenuItem; safecall;
+    function CreateMenuItem(const MenuItemID: WideString; const MenuCaption: WideString; 
+                            MenuItemType: MenuItemTypes; const Description: WideString; 
+                            ActionCommand: Integer; Index: Integer; BeginGroup: WordBool): IMenuItem; safecall;
+    procedure ClearMenuItems; safecall;
+    property Caption: WideString read Get_Caption;
+    property Visible: WordBool read Get_Visible write Set_Visible;
+    property MenuItemCount: Integer read Get_MenuItemCount;
   end;
 
 // *********************************************************************//
-// DispIntf:  IRTFTextDisp
+// Interface: IMenuItem
 // Flags:     (4416) Dual OleAutomation Dispatchable
-// GUID:      {ACCC7902-EE75-474E-AD45-544086136A68}
+// GUID:      {E778343E-D2DF-4698-B57F-C5377B6E1845}
 // *********************************************************************//
-  IRTFTextDisp = dispinterface
-    ['{ACCC7902-EE75-474E-AD45-544086136A68}']
-    property Value: WideString dispid 201;
-    function ToPlain: WideString; dispid 202;
+  IMenuItem = interface(IDispatch)
+    ['{E778343E-D2DF-4698-B57F-C5377B6E1845}']
+    function Get_Caption: WideString; safecall;
+    function Get_Action: Integer; safecall;
+    function Get_Enabled: WordBool; safecall;
+    procedure Set_Enabled(Value: WordBool); safecall;
+    function Get_MenuItemCount: Integer; safecall;
+    function GetMenuItem(AIndex: Integer): IMenuItem; safecall;
+    function Get_Icon: Integer; safecall;
+    procedure Set_Icon(Value: Integer); safecall;
+    function Get_BeginGroup: WordBool; safecall;
+    procedure Set_BeginGroup(Value: WordBool); safecall;
+    function Get_Visible: WordBool; safecall;
+    procedure Set_Visible(Value: WordBool); safecall;
+    function Get_ItemType: MenuItemTypes; safecall;
+    function Get_MenuItemID: WideString; safecall;
+    function AddMenuItem(const MenuItemID: WideString; Index: Integer; BeginGroup: WordBool): IMenuItem; safecall;
+    function GetItemByText(const AText: WideString): IMenuItem; safecall;
+    function CreateMenuItem(const MenuItemID: WideString; const MenuCaption: WideString; 
+                            MenuItemType: MenuItemTypes; const Description: WideString; 
+                            ActionCommand: Integer; Index: Integer; BeginGroup: WordBool): IMenuItem; safecall;
+    procedure ClearMenuItems; safecall;
+    property Caption: WideString read Get_Caption;
+    property Action: Integer read Get_Action;
+    property Enabled: WordBool read Get_Enabled write Set_Enabled;
+    property MenuItemCount: Integer read Get_MenuItemCount;
+    property Icon: Integer read Get_Icon write Set_Icon;
+    property BeginGroup: WordBool read Get_BeginGroup write Set_BeginGroup;
+    property Visible: WordBool read Get_Visible write Set_Visible;
+    property ItemType: MenuItemTypes read Get_ItemType;
+    property MenuItemID: WideString read Get_MenuItemID;
+  end;
+
+// *********************************************************************//
+// Interface: ILoodsmanService
+// Flags:     (4416) Dual OleAutomation Dispatchable
+// GUID:      {67927DBE-4A12-4785-9D36-F72E7299884B}
+// *********************************************************************//
+  ILoodsmanService = interface(IDispatch)
+    ['{67927DBE-4A12-4785-9D36-F72E7299884B}']
+    procedure OnBindService(const OwnerApplication: IDispatch); safecall;
+    procedure OnUnbindService; safecall;
+    procedure OnOpenDatabase(const Connection: IDispatch; const WBSSystem: IDispatch; 
+                             const DataBase: IDataBase); safecall;
+    procedure OnCloseDatabase(const DataBase: IDataBase); safecall;
+  end;
+
+// *********************************************************************//
+// Interface: IServiceInfo
+// Flags:     (4416) Dual OleAutomation Dispatchable
+// GUID:      {8409E9CD-B499-4C91-B06F-95741911B226}
+// *********************************************************************//
+  IServiceInfo = interface(IDispatch)
+    ['{8409E9CD-B499-4C91-B06F-95741911B226}']
+    function GetServiceName: WideString; safecall;
+    function GetServiceDescription: WideString; safecall;
   end;
 
 implementation

@@ -39,17 +39,17 @@ var
 begin
     LTypeLib := GetLoodsmanTypeLib();
     Check(LTypeLib <> nil);
-    CheckEquals(82, LTypeLib.GetTypeInfoCount);
+    CheckEquals(38, LTypeLib.GetTypeInfoCount);
     // IDataSet
-    OleCheck(LTypeLib.GetTypeInfoOfGuid(StringToGUID('{60446488-9D7B-4776-866E-7EE647F72972}'), LTypeInfo));
+    OleCheck(LTypeLib.GetTypeInfoOfGuid(StringToGUID('{AAE5A095-1616-4AA6-A14D-D2C973191E79}'), LTypeInfo));
     OleCheck(LTypeInfo.GetTypeAttr(LTypeAttr));
-    CheckEquals(38, LTypeAttr.cFuncs);
+    CheckEquals(39, LTypeAttr.cFuncs);
     LTypeInfo.ReleaseTypeAttr(LTypeAttr);
     LTypeInfo := nil;
     // IPluginCall
     OleCheck(LTypeLib.GetTypeInfoOfGuid(StringToGUID('{7779A0A3-1BF6-45C8-A536-21AD4B97E46D}'), LTypeInfo));
     OleCheck(LTypeInfo.GetTypeAttr(LTypeAttr));
-    CheckEquals(27, LTypeAttr.cFuncs);
+    CheckEquals(32, LTypeAttr.cFuncs);
     LTypeInfo.ReleaseTypeAttr(LTypeAttr);
     LTypeInfo := nil;
 end;
