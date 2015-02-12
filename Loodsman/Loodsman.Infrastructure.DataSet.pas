@@ -154,7 +154,7 @@ begin
         FName := String(szName);
     //else
     //    FName := MetaDataToUnicode(szName);
-    if strlen(szName) = SizeOf(MIDASNAME) - 1 then
+    if Length(PAnsiChar(@szName[0])) = SizeOf(MIDASNAME) - 1 then
     begin
       V := InternalGetOptionalParam(szFIELDNAME, FieldID);
       if not VarIsNull(V) and not VarIsClear(V) then
