@@ -29,6 +29,10 @@ uses
     Classes, ComObj, Variants, DB, DBCommon, DBClient, DSIntf,
     DataProvider_TLB, Loodsman.Infrastructure.Resources;
 
+resourcestring
+    SWrongMidasDLL = 'На компьютере установлена старая версия MIDAS.DLL. '
+        + 'Приложению требуется версия библиотеки 15.0 или более новая';
+
 type
     TFieldIndex = class(TStringList)
     protected
@@ -42,6 +46,9 @@ type
         procedure AddFieldDesc(FieldDescs: TFieldDescList; var DescNo, FieldID:
             Integer; FieldDefs: TFieldDefs);
         procedure InternalInitFieldDefs; override;
+        procedure OpenCursor(InfoQuery: Boolean); override;
+    public
+        procedure CreateDataSet;
     end;
 
     TDataSetObject = class(TAutoIntfObject, IDataSetV11, IDataSetV13)
@@ -240,6 +247,21 @@ begin
   end;
 end;
 
+procedure TCompatDataSet.CreateDataSet;
+begin
+    // Если на компьютере установлена старая версия midas.dll, то вместо
+    // сообщения "Invalid Parameter" будет ошибка EAccessViolation -
+    // вызов SetProp приводит к ошибке "Invalid Parameter", а для
+    // получения сообщения об ошибке вызывается метод FDSBase, но сам
+    // FDSBase = nil в это время
+    try
+        inherited CreateDataSet;
+    except
+        on EAccessViolation do
+            raise EDBClient.Create(SWrongMidasDLL, 9986{DBIERR_INVALIDPARAM});
+    end;
+end;
+
 procedure TCompatDataSet.InternalInitFieldDefs;
 var
     FieldID, I: Integer;
@@ -255,6 +277,17 @@ begin
     FieldID := 1;
     while I < CursorProps.iFields do
         AddFieldDesc(FieldDescs, I, FieldID, FieldDefs);
+end;
+
+procedure TCompatDataSet.OpenCursor(InfoQuery: Boolean);
+begin
+    // См. комментарий в методе CreateDataSet
+    try
+        inherited OpenCursor(InfoQuery);
+    except
+        on EAccessViolation do
+            raise EDBClient.Create(SWrongMidasDLL, 9986{DBIERR_INVALIDPARAM});
+    end;
 end;
 
 {
