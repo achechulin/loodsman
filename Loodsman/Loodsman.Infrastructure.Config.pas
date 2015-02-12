@@ -208,7 +208,7 @@ begin
         if not LKeyOpened then
         begin
             LRegistry.RootKey := HKEY_LOCAL_MACHINE;
-            LRegistry.OpenKeyReadOnly(CLoodsmanRegKeyName);
+            LKeyOpened := LRegistry.OpenKeyReadOnly(CLoodsmanRegKeyName);
         end;
         if LKeyOpened then
         begin

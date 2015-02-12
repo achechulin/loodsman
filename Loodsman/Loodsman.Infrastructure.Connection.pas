@@ -35,8 +35,8 @@ function GetLoodsmanConnectionEx(const ABase, AUserName, APassword: String): IRe
 implementation
 
 uses
-    ActiveX, Classes, ComObj, Variants, Windows, MConnect, SConnect,
-    Loodsman.Infrastructure.Config, Loodsman.Infrastructure.DataSet;
+    ActiveX, Classes, ComObj, Variants, Windows, DBClient, MConnect, MidConst,
+    SConnect, Loodsman.Infrastructure.Config, Loodsman.Infrastructure.DataSet;
 
 const
     CMaxDispArgs = 32;
@@ -153,6 +153,7 @@ type
         procedure SetConnectedWF(Value: Boolean); override;
     end;
 
+{$I DispConnFix.inc}
 
 procedure DisconnectTimerProc(AWindow: THandle; AMessage: Cardinal;
     ATimerID: NativeUInt; ATime: Cardinal); stdcall;
