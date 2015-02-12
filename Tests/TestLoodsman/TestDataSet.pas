@@ -14,6 +14,7 @@ type
         procedure TestCreateEmptyDataSet;
         procedure TestCreateWithFields;
         procedure TestCreateWithData;
+        procedure TestCompatV11;
         procedure TestEdit;
         procedure TestMove;
         procedure TestBlob;
@@ -26,7 +27,7 @@ type
 implementation
 
 uses
-    Classes, ComObj, Variants, Loodsman.Infrastructure.Types, FastMM4;
+    Classes, ComObj, Variants, DataProvider_TLB, Loodsman.Infrastructure.Types;
 
 function GetFileAsVariant(const AFileName: String): Variant;
 var
@@ -86,6 +87,22 @@ end;
 procedure TTestDataSet.TearDown;
 begin
     inherited;
+end;
+
+procedure TTestDataSet.TestCompatV11;
+var
+    LDataSet: IDataSet;
+    LDataSetV11: IDataSetV11;
+    LDataSetV13: IDataSetV13;
+begin
+    LDataSet := CreateDataSet();
+    Check(LDataSet <> nil);
+
+    Check(Supports(LDataSet, IDataSetV11, LDataSetV11));
+    Check(LDataSetV11 <> nil);
+
+    Check(Supports(LDataSet, IDataSetV13, LDataSetV13));
+    Check(LDataSetV13 <> nil);
 end;
 
 procedure TTestDataSet.TestCreateEmptyDataSet;
