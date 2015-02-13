@@ -22,6 +22,7 @@ type
         procedure TestLocate;
         procedure TestFilter;
         procedure TestIndex;
+        procedure TestLongFieldName;
     end;
 
 implementation
@@ -339,6 +340,20 @@ begin
     CheckEquals(24, LDataSet.CurrentRecord);
     CheckEquals(False, LDataSet.Bof);
     CheckEquals(True, LDataSet.Eof);
+end;
+
+procedure TTestDataSet.TestLongFieldName;
+const
+    CFieldName = 'Группа материала по сортаменту';
+var
+    LDataSet: IDataSet;
+    LData: OleVariant;
+begin
+    LDataSet := CreateDataSet([CFieldName, Ord(ftString), 256]);
+    LData := LDataSet.Data;
+
+    LDataSet := CreateDataSet(LData);
+    CheckEquals(CFieldName, LDataSet.FieldName[0]);
 end;
 
 procedure TTestDataSet.TestBlob;
