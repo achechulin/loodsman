@@ -229,6 +229,7 @@ type
 
   {$ifdef UseV13PDMData}
   IPDMData = PDMObjects_TLB.IPDMDataV13;
+  IProtectedPDMData = PDMObjects_TLB.IProtectedPDMDataV13;
   IPDMObject = PDMObjects_TLB.IPDMObjectV13;
   IPDMDocument = PDMObjects_TLB.IPDMDocumentV13;
   IPDMFile = PDMObjects_TLB.IPDMFileV13;

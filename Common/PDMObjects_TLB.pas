@@ -273,6 +273,15 @@ type
 // Flags:     (4416) Dual OleAutomation Dispatchable
 // GUID:      {12947964-F700-4055-9270-496DACC18ACB}
 // *********************************************************************//
+  IProtectedPDMDataV13 = interface(IPDMDataV13)
+    ['{12947964-F700-4055-9270-496DACC18ACB}']
+  end;
+
+// *********************************************************************//
+// Interface: IProtectedPDMData
+// Flags:     (4416) Dual OleAutomation Dispatchable
+// GUID:      {12947964-F700-4055-9270-496DACC18ACB}
+// *********************************************************************//
   IProtectedPDMDataV14 = interface(IPDMDataV14)
     ['{12947964-F700-4055-9270-496DACC18ACB}']
     function Get_LockLevel: PDMLockLevels; safecall;
