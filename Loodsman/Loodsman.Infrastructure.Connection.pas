@@ -836,6 +836,7 @@ begin
         ctSocket:
             begin
                 Result := TSocketConnection.Create(nil);
+                TSocketConnection(Result).SupportCallbacks := False;
                 if IsIPAddress(LServerName) then
                     TSocketConnection(Result).Address := LServerName
                 else
