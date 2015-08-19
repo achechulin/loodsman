@@ -47,14 +47,14 @@ end;
 
 function GetLoodsmanTypeLib: ITypeLib;
 var
-    LFileName: String;
+    LFileName: WideString;
 begin
     if LoodsmanTypeLib = nil then
     begin
         // Loodsman.Infrastructure.Resources.rc
         // 1 TYPELIB "Resources\\Loodsman.tlb"
         LFileName := GetModuleFileName(HInstance) + PathDelim + '1';
-        OleCheck(LoadTypeLibEx(PChar(LFileName), REGKIND_NONE, LoodsmanTypeLib));
+        OleCheck(LoadTypeLibEx(PWideChar(LFileName), REGKIND_NONE, LoodsmanTypeLib));
     end;
     Result := LoodsmanTypeLib;
 end;
