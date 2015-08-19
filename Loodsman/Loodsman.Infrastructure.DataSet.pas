@@ -134,116 +134,111 @@ end;
 procedure TCompatDataSet.AddFieldDesc(FieldDescs: TFieldDescList; var DescNo,
     FieldID: Integer; FieldDefs: TFieldDefs);
 var
-  FPrecision, I: Integer;
-  FType: TFieldType;
-  FSize: Integer;
-  FName: string;
+  I, LPrecision, LSize: Integer;
+  LType: TFieldType;
+  LName: string;
   FieldDesc: DSFLDDesc;
   V: Variant;
+  LFieldDef: TFieldDef;
 begin
   FieldDesc := FieldDescs[DescNo];
   Inc(DescNo);
-  with FieldDesc do
+  if ((fldAttrLINK and FieldDesc.iFldAttr) <> 0) then
   begin
-    if ((fldAttrLINK and iFldAttr) <> 0) then
+    Inc(FieldID);
+    Exit;
+  end;
+  LName := String(FieldDesc.szName);
+  //LName := TMarshal.ReadStringAsAnsi(CP_UTF8, TPtrWrapper.Create(@FieldDesc.szName[0]));
+  // BUGBUG: It's a bug in original source code, since it's used CP_UTF8,
+  // and length(szName) <> length(LName)
+  if Length(LName) = SizeOf(MIDASNAME) - 1 then
+  begin
+    V := InternalGetOptionalParam(szFIELDNAME, FieldID);
+    if not VarIsNull(V) and not VarIsClear(V) then
+      LName := VarToStr(V);
+  end;
+  I := 0;
+  while FieldDefs.IndexOf(LName) >= 0 do
+  begin
+    Inc(I);
+    LName := Format('%s_%d', [String(FieldDesc.szName), I]);
+    //LName := string.Format('%s_%d', [TMarshal.ReadStringAsAnsi(CP_UTF8, TPtrWrapper.Create(@FieldDesc.szName[0])), I]);
+  end;
+  if FieldDesc.iFldType < MAXLOGFLDTYPES then
+    LType := DataTypeMap[FieldDesc.iFldType]
+  else if FieldDesc.iFldType = fldUNICODE then
+    LType := ftWideString
+  else if FieldDesc.iFldType = fldDATETIMEOFFSET then
+    LType := ftTimeStampOffset
+  else if FieldDesc.iFldType = fldINT8 then
+    LType := ftShortint
+  else if FieldDesc.iFldType = fldUINT8 then
+    LType := ftByte
+  else if FieldDesc.iFldType = fldSINGLE then
+    LType := ftSingle
+  else
+    LType := ftUnknown;
+  LSize := 0;
+  LPrecision := 0;
+  case FieldDesc.iFldType of
+    fldZSTRING, fldBYTES, fldVARBYTES, fldADT, fldArray:
     begin
-      Inc(FieldID);
-      Exit;
+      LSize := FieldDesc.iUnits1;
+      if FieldDesc.iFldSubType = fldstGuid then
+        LType := ftGuid;
     end;
-    //if FCompatMetaData then
-        FName := String(szName);
-    //else
-    //    FName := MetaDataToUnicode(szName);
-    if Length(PAnsiChar(@szName[0])) = SizeOf(MIDASNAME) - 1 then
-    begin
-      V := InternalGetOptionalParam(szFIELDNAME, FieldID);
-      if not VarIsNull(V) and not VarIsClear(V) then
-        FName := VarToStr(V);
-    end;
-    I := 0;
-    while FieldDefs.IndexOf(FName) >= 0 do
-    begin
-      Inc(I);
-      //if FCompatMetaData then
-          FName := Format('%s_%d', [String(szName), I]);
-      //else
-      //    FName := Format('%s_%d', [MetaDataToUnicode(szName), I]);
-    end;
-    if iFldType < MAXLOGFLDTYPES then
-      FType := DataTypeMap[iFldType] else
-    if iFldType = fldUNICODE then
-      FType := ftWideString
-    else if iFldType = fldDATETIMEOFFSET then
-      FType := ftTimeStampOffset
-    else if iFldType = fldINT8 then
-      FType := ftShortint
-    else if iFldType = fldUINT8 then
-      FType := ftByte
-    else if iFldType = fldSINGLE then
-      FType := TFieldType.ftSingle
-    else
-      FType := ftUnknown;
-    FSize := 0;
-    FPrecision := 0;
-    case iFldType of
-      fldZSTRING, fldBYTES, fldVARBYTES, fldADT, fldArray:
+    fldUNICODE:
+      LSize := FieldDesc.iUnits1 div 2;
+    fldINT16, fldUINT16:
+      if FieldDesc.iFldLen <> 2 then LType := ftUnknown;
+    fldINT32:
+      if FieldDesc.iFldSubType = fldstAUTOINC then LType := ftAutoInc;
+    fldFLOAT:
+      if FieldDesc.iFldSubType = fldstMONEY then LType := ftCurrency;
+    fldFMTBCD, fldBCD:
       begin
-        FSize := iUnits1;
-        if iFldSubType = fldstGuid then
-          FType := ftGuid;
+        LSize := Abs(FieldDesc.iUnits2);
+        LPrecision := FieldDesc.iUnits1;
+        if FieldDesc.iFldType = fldFMTBCD then
+          LType := ftFMTBcd;
       end;
-      fldUNICODE:
-        FSize := iUnits1 div 2;
-      fldINT16, fldUINT16:
-        if iFldLen <> 2 then FType := ftUnknown;
-      fldINT32:
-        if iFldSubType = fldstAUTOINC then FType := ftAutoInc;
-      fldFLOAT:
-        if iFldSubType = fldstMONEY then FType := ftCurrency;
-      fldFMTBCD, fldBCD:
-        begin
-          FSize := Abs(iUnits2);
-          FPrecision := iUnits1;
-          if iFldType = fldFMTBCD then
-            FType := ftFMTBcd;
-        end;
-      fldBLOB:
-        begin
-          FSize := iUnits1;
-          if ( (iFldSubType >= fldstMEMO) and (iFldSubType <= fldstTYPEDBINARY))
-              or (iFldSubType = fldstWIDEMEMO)
-              or (iFldSubType = fldstHMEMO)
-              or (iFldSubType = fldstHBINARY) then
-            FType := BlobTypeMap[iFldSubType];
-        end;
-      fldTABLE:
-        if iFldSubType = fldstREFERENCE then FType := ftReference;
-    end;
-    if FType <> ftUnknown then
-      with FieldDefs.AddFieldDef do
+    fldBLOB:
       begin
-        FieldNo := FieldID;
-        Inc(FieldID);
-        Name := FName;
-        DataType := FType;
-        Size := FSize;
-        Precision := FPrecision;
-        Attributes := TFieldAttributes(Byte(iFldAttr));
-        if iFldSubType = fldstFIXED then
-          Attributes := Attributes + [faFixed];
-        InternalCalcField := bCalculated;
-        case FType of
-          ftADT:
-            for I := 0 to iUnits1 - 1 do
-              AddFieldDesc(FieldDescs, DescNo, FieldID, ChildDefs);
-          ftArray:
-            begin
-              I := FieldID;
-              AddFieldDesc(FieldDescs, DescNo, I, ChildDefs);
-              Inc(FieldID, iUnits2);
-            end;
-        end;
+        LSize := FieldDesc.iUnits1;
+        if ( (FieldDesc.iFldSubType >= fldstMEMO) and (FieldDesc.iFldSubType <= fldstTYPEDBINARY))
+            or (FieldDesc.iFldSubType = fldstWIDEMEMO)
+            or (FieldDesc.iFldSubType = fldstHMEMO)
+            or (FieldDesc.iFldSubType = fldstHBINARY) then
+          LType := BlobTypeMap[FieldDesc.iFldSubType];
       end;
+    fldTABLE:
+      if FieldDesc.iFldSubType = fldstREFERENCE then LType := ftReference;
+  end;
+  if LType <> ftUnknown then
+  begin
+    LFieldDef := FieldDefs.AddFieldDef;
+    LFieldDef.FieldNo := FieldID;
+    Inc(FieldID);
+    LFieldDef.Name := LName;
+    LFieldDef.DataType := LType;
+    LFieldDef.Size := LSize;
+    LFieldDef.Precision := LPrecision;
+    LFieldDef.Attributes := TFieldAttributes(Byte(FieldDesc.iFldAttr));
+    if FieldDesc.iFldSubType = fldstFIXED then
+      LFieldDef.Attributes := LFieldDef.Attributes + [faFixed];
+    LFieldDef.InternalCalcField := FieldDesc.bCalculated;
+    case LType of
+      ftADT:
+        for I := 0 to FieldDesc.iUnits1 - 1 do
+          AddFieldDesc(FieldDescs, DescNo, FieldID, LFieldDef.ChildDefs);
+      ftArray:
+        begin
+          I := FieldID;
+          AddFieldDesc(FieldDescs, DescNo, I, LFieldDef.ChildDefs);
+          Inc(FieldID, FieldDesc.iUnits2);
+        end;
+    end; { case }
   end;
 end;
 
@@ -268,7 +263,7 @@ var
     FieldDescs: TFieldDescList;
     CursorProps: DSProps;
 begin
-    DSBase.SetProp(dspropCOMPRESSARRAYS, Integer(True));
+    DSBase.SetProp(dspropCOMPRESSARRAYS, NativeInt(True));
     Check(DSBase.GetProps(CursorProps));
     SetLength(FieldDescs, CursorProps.iFields);
     Check(DSBase.GetFieldDescs(PDSFldDesc(FieldDescs)));
