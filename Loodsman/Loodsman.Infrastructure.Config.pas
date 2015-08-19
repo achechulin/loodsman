@@ -6,7 +6,7 @@ unit Loodsman.Infrastructure.Config;
 interface
 
 uses
-    SysUtils, Classes, Loodsman_TLB, Loodsman.Infrastructure.Types;
+    SysUtils, Classes, Types, Loodsman_TLB, Loodsman.Infrastructure.Types;
 
 procedure AddToFavorites(const ABase, AName: String; const AVersionID: Integer);
 
@@ -42,7 +42,7 @@ function GetLoodsmanCommonPath: String;
 
 function GetLoodsmanEncoding: TEncoding;
 
-function GetLoodsmanFavorites(const ABase: String): TArray<Integer>;
+function GetLoodsmanFavorites(const ABase: String): TIntegerDynArray;
 
 function GetLoodsmanPath: String;
 
@@ -60,7 +60,7 @@ procedure SetDBAuthListData(const AData: OleVariant);
 implementation
 
 uses
-    EncdDecd, IniFiles, Registry, ShlObj, StrUtils, Types, Variants, Windows,
+    EncdDecd, IniFiles, Registry, ShlObj, StrUtils, Variants, Windows,
     Loodsman.Infrastructure.DataSet, Loodsman.Infrastructure.LoginDialog;
 
 const
@@ -414,7 +414,7 @@ begin
     Result := TEncoding.Default;
 end;
 
-function GetLoodsmanFavorites(const ABase: String): TArray<Integer>;
+function GetLoodsmanFavorites(const ABase: String): TIntegerDynArray;
 var
     LFileName: String;
     LIniFile: TIniFile;
