@@ -30,8 +30,8 @@ unit DataProvider_TLB;
 {$ALIGN 4}
 interface
 
-uses Windows, ActiveX, Classes, Graphics, OleServer, StdVCL, Variants;
-  
+uses Windows, ActiveX, Variants;
+
 
 // *********************************************************************//
 // GUIDS declared in the TypeLibrary. Following prefixes are used:        

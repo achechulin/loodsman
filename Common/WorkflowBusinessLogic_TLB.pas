@@ -31,7 +31,7 @@ unit WorkflowBusinessLogic_TLB;
 
 interface
 
-uses Windows, Variants;
+uses Windows, ActiveX, Variants;
   
 
 // *********************************************************************//
