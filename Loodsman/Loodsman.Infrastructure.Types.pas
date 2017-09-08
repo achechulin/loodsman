@@ -13,6 +13,8 @@ const
     CAppServerV9 = 20080300;
     CAppServerV10 = 20090306;
     CAppServerV11 = 20100701;
+    CAppServerV14 = 20141231;
+    CAppServerV17 = 20170430;
 
 const
     WM_REFRESHVERSION = WM_USER + 1;
@@ -88,12 +90,12 @@ type
         APDMVersion: PWorkflowVersionData;
         AUserData: OleVariant): OleVariant; stdcall;
 
-    /// <summary>Класс исключения при ошибках в работе с сервером приложений, 
+    /// <summary>Класс исключения при ошибках в работе с сервером приложений,
     /// в том числе и при ошибках чтения конфигурации.</summary>
     EServerException = class(Exception)
     end;
 
-    /// <summary>Интерфейс подключения к серверу приложений. 
+    /// <summary>Интерфейс подключения к серверу приложений.
     /// Не является частью API ЛОЦМАН:PLM.</summary>
     IRemoteConnection = interface(IInterface)
         ['{0FBADFEF-7975-4C8E-8CC8-7D5323187F5F}']
