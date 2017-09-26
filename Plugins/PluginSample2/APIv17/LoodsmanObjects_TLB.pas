@@ -1968,30 +1968,6 @@ type
     property SignInfoValid: WordBool readonly dispid 203;
   end;
 
-// *********************************************************************//
-// The Class CoPDMEntityManager provides a Create and CreateRemote method to          
-// create instances of the default interface IPDMEntityManager exposed by              
-// the CoClass PDMEntityManager. The functions are intended to be used by             
-// clients wishing to automate the CoClass objects exposed by the         
-// server of this typelibrary.                                            
-// *********************************************************************//
-  CoPDMEntityManager = class
-    class function Create: IPDMEntityManager;
-    class function CreateRemote(const MachineName: string): IPDMEntityManager;
-  end;
-
 implementation
-
-uses ComObj;
-
-class function CoPDMEntityManager.Create: IPDMEntityManager;
-begin
-  Result := CreateComObject(CLASS_PDMEntityManager) as IPDMEntityManager;
-end;
-
-class function CoPDMEntityManager.CreateRemote(const MachineName: string): IPDMEntityManager;
-begin
-  Result := CreateRemoteComObject(MachineName, CLASS_PDMEntityManager) as IPDMEntityManager;
-end;
 
 end.
