@@ -48,6 +48,9 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+  <PropertyGroup>
+    <Win32Resource>PluginResources.res</Win32Resource>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="RGiesecke.DllExport.Metadata, Version=1.0.0.0, Culture=neutral, PublicKeyToken=8f52d83c1a22df51, processorArchitecture=MSIL">
@@ -73,6 +76,8 @@
     <Compile Include="UnsafeNativeMethods.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.manifest" />
+    <None Include="Images\LinkedFast.bmp" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
