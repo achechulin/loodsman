@@ -1,7 +1,9 @@
 ﻿using System;
+using System.IO;
 using System.Text;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
+using System.Reflection;
 using RGiesecke.DllExport;
 using Loodsman;
 using DataProvider;
@@ -10,9 +12,19 @@ namespace PluginSampleNet
 {
     public class PluginFunctions
     {
-        static string PluginCaption = "Тестовый плагин";
+        private static bool _initialized = false;
 
-        static string[] PluginMenu = 
+        // Папка, из которой загружена сборка.
+        // Из этой папки будут загружаться сборки от которых зависит текущая
+        public static string InstallPath
+        {
+            get; 
+            private set;
+        }
+
+        public static string PluginCaption = "Тестовый плагин";
+
+        public static string[] PluginMenu = 
         {
             "ProjectList",    "BEFORE_MI_TOOLS#Мои плагины#Тестовый#Список проектов",
             "LinkedFast",     "BEFORE_MI_TOOLS#Мои плагины#Тестовый#Состав" ,
@@ -29,7 +41,7 @@ namespace PluginSampleNet
 
         public static void ProjectList(IPluginCall pluginCall)
         {
-            object[] args = {};
+            object[] args = { };
             IDataSet dataSet = pluginCall.GetDataSet("GetProjectList", args);
             var builder = new StringBuilder();
             while (!dataSet.Eof)
@@ -48,6 +60,25 @@ namespace PluginSampleNet
             form.ShowDialog();
         }
 
+        // Загрузка используемых сборок из папки, в которой находится текущая сборка.
+        // По умолчанию сборки загружаются из папки в которой находится exe-файл
+        private static Assembly currentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
+        {
+            string fileName = Path.Combine(InstallPath, args.Name.Substring(0, args.Name.IndexOf(",")) + ".dll");
+            if (File.Exists(fileName))
+            {
+                return Assembly.LoadFile(fileName);
+            }
+            return null;
+        }
+
+        private static void Initialize()
+        {
+            InstallPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            AppDomain currentDomain = AppDomain.CurrentDomain;
+            currentDomain.AssemblyResolve += currentDomain_AssemblyResolve;
+        }
+
         // Эта функция должна быть реализована в плагинах, которые планируется использовать 
         // не только в дереве объектов. Если этой функции не будет, то команды плагина будут
         // доступны только для объектов дерева
@@ -60,6 +91,12 @@ namespace PluginSampleNet
         [DllExport("InitUserDLLCom", CallingConvention.StdCall)]
         public static Int32 InitUserDLLCom(IntPtr Value)
         {
+            if (!_initialized)
+            {
+                Initialize();
+                _initialized = true;
+            }
+
             if (Value != IntPtr.Zero)
             {
                 for (int i = 0; i < PluginMenu.Length / 2; ++i)
