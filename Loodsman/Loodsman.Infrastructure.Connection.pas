@@ -36,7 +36,7 @@ implementation
 
 uses
     ActiveX, Classes, ComObj, Variants, Windows, DBClient, MConnect, MidConst,
-    SConnect, Loodsman.Infrastructure.Config, Loodsman.Infrastructure.DataSet;
+    SConnect, WConnect, Loodsman.Infrastructure.Config, Loodsman.Infrastructure.DataSet;
 
 const
     CMaxDispArgs = 32;
@@ -153,6 +153,7 @@ type
         procedure SetConnectedWF(Value: Boolean); override;
     end;
 
+
 {$I DispConnFix.inc}
 
 procedure DisconnectTimerProc(AWindow: THandle; AMessage: Cardinal;
@@ -170,6 +171,7 @@ begin
         DisconnectTimerID := 0;
     end;
     SharedConnection := nil;
+    TWCFConnection.CloseShared();
 end;
 
 function GetCompName: String;
@@ -606,7 +608,7 @@ begin
         DispatchInvokeError(Hr, LExcepInfo);
 
     if (LReturnCode <> 0) then
-        raise EServerException.Create(LErrorMessage);
+        raise EServerException.Create(LErrorMessage, LReturnCode);
 end;
 
 function TRemoteConnection.CreateConnection(const AWorkflow: Boolean):
@@ -626,7 +628,7 @@ begin
     try
         GetAppServerList(AWorkflow, LAppServerList);
         if LAppServerList.Count = 0 then
-            raise EServerException.Create(SAppServerListEmpty);
+            raise EServerException.Create(SAppServerListEmpty, 0);
         for i := 0 to LAppServerList.Count - 1 do
         begin
             try
@@ -663,6 +665,14 @@ begin
         on E: EOleSysError do
         begin
             LRpcFailed := True;
+        end;
+        on E: EServerException do
+        begin
+            // 2 - Тайм-аут локального сокета
+            if E.ErrorCode = 2 then
+                LRpcFailed := True
+            else
+                raise;
         end;
     end;
 
@@ -759,7 +769,9 @@ begin
                 Result := TSocketConnection(FConnection).Host;
         end
         else if FConnection is TWebConnection then
-            Result := TWebConnection(FConnection).URL;
+            Result := TWebConnection(FConnection).URL
+        else if FConnection is TWCFConnection then
+            Result := TWCFConnection(FConnection).Host;
     end;
 end;
 
@@ -820,6 +832,7 @@ var
         end;
         Exit(True);
     end;
+
 begin
     Result := nil;
 
@@ -853,6 +866,13 @@ begin
                 TWebConnection(Result).UserName := LUserName;
                 TWebConnection(Result).Password := LPassword;
             end;
+
+        ctWCF:
+            begin
+                Result := TWCFConnection.Create(nil);
+                TWCFConnection(Result).Host := LServerName;
+                TWCFConnection(Result).Port := LPort;
+            end;
     end;
 
     Assert(Result <> nil);
@@ -866,6 +886,7 @@ begin
         raise;
     end;
 end;
+
 
 initialization
 

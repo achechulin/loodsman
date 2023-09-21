@@ -32,7 +32,7 @@ type
     TAttributeType = (atString, atInteger, atFloat, atDateTime, atText = 5, atImage = 6);
     TCardControlType = (cctEdit, cctNumEdit, cctNumMeasuredEdit, cctDate, cctTime,
         cctText, cctImage, cctLabel, cctBevel);
-    TConnectionType = (ctDCOM, ctSocket, ctWeb);
+    TConnectionType = (ctDCOM, ctSocket, ctWeb, ctWCF);
     TDatabaseAuth = (amWindows, amSqlServer, amSqlServerSaved, amInaccessible, amUnknown);
     TLinkDirection = (ldAny, ldForwardOnly, ldBackwardOnly = -1);
     TLinkKind = (lkVertical, lkHorizontal);
@@ -93,6 +93,11 @@ type
     /// <summary>Класс исключения при ошибках в работе с сервером приложений,
     /// в том числе и при ошибках чтения конфигурации.</summary>
     EServerException = class(Exception)
+    private
+        FErrorCode: Integer;
+    public
+        constructor Create(const Msg: string; const ErrorCode: Integer);
+        property ErrorCode: Integer read FErrorCode;
     end;
 
     /// <summary>Интерфейс подключения к серверу приложений.
@@ -157,6 +162,16 @@ begin
         Result := ADataSet.FieldValue[AFieldName]
     else
         raise EServerException.CreateFmt(SRequiredFieldNotFound, [AFieldName]);
+end;
+
+{
+******************************* EServerException *******************************
+}
+constructor EServerException.Create(const Msg: string; const ErrorCode:
+    Integer);
+begin
+  inherited Create(Msg);
+  FErrorCode := ErrorCode;
 end;
 
 

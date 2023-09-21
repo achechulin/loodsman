@@ -48,6 +48,9 @@ function GetLoodsmanPath: String;
 
 procedure OverrideAppServerList(const AList: String);
 
+procedure OverrideDBAuthList(const ABase: String; const ADatabaseAuth:
+    TDatabaseAuth; const AUserName, APassword: String);
+
 procedure RemoveFromFavorites(const ABase: String; const AVersionID: Integer);
 
 procedure SetBaseAuthParams(const ADataSet: IDataSet; const ABase: String;
@@ -61,7 +64,8 @@ implementation
 
 uses
     EncdDecd, IniFiles, Registry, ShlObj, StrUtils, Variants, Windows,
-    Loodsman.Infrastructure.DataSet, Loodsman.Infrastructure.LoginDialog;
+    {$ifndef CONSOLE}Loodsman.Infrastructure.LoginDialog,{$endif}
+    Loodsman.Infrastructure.DataSet;
 
 const
     CLoodsmanRegKeyName = 'Software\ASCON\Loodsman';
@@ -75,6 +79,7 @@ const
     CAppServerSeparator = ';';
     CParamSeparator = '|';
     CParamValueSeparator = '=';
+    CPortSeparator = ':';
     CAppServerConnection = 'ConnectionType';
     CHost = 'Host';
     CPort = 'Port';
@@ -82,6 +87,7 @@ const
     CUserName = 'User';
     CPassword = 'Password';
     CDefaultPort = 4804;
+    CWCFDefaultPort = 8076;
     CXorKey = 117;
     CDBAuthFieldBase = '_DataBase';
     CDBAuthFieldUser = '_UserName';
@@ -96,6 +102,7 @@ const
 
 var
     OverridedAppServerList: String;
+    OverridedDBAuthList: IDataSet;
 
 function DeCrypt(const AText: String): String;
 var
@@ -232,6 +239,7 @@ var
     i: Integer;
     LName: String;
     LValue: String;
+    LParts: TStringDynArray;
 begin
     AConnection := ctDCOM;
     AHost := AConnectionString;
@@ -265,6 +273,14 @@ begin
         finally
             LParams.Free();
         end;
+    end
+    else if Pos(CPortSeparator, AConnectionString) > 0 then
+    begin
+        LParts := SplitString(AConnectionString, CPortSeparator);
+        Assert(Length(LParts) > 1);
+        AConnection := ctWCF;
+        AHost := LParts[0];
+        APort := StrToIntDef(LParts[1], CWCFDefaultPort);
     end;
 end;
 
@@ -316,6 +332,7 @@ begin
     else
         ADatabaseAuth := amWindows;
 
+{$ifndef CONSOLE}
     if (ADatabaseAuth = amSqlServer) and (APassword = '') then
     begin
         if not ShowLoodsmanLoginDialog(ABase, AUserName, APassword, ASavePassword) then
@@ -324,6 +341,7 @@ begin
         ANewPassword := True;
     end
     else
+{$endif}
     begin
         ANewPassword := False;
         ASavePassword := False;
@@ -334,6 +352,11 @@ function GetDBAuthList: IDataSet;
 var
     LData: OleVariant;
 begin
+    if OverridedDBAuthList <> nil then
+    begin
+        Result := OverridedDBAuthList;
+    end;
+
     LData := GetDBAuthListData();
     if not VarIsEmpty(LData) then
     begin
@@ -348,6 +371,11 @@ var
     LSize: Integer;
     P: Pointer;
 begin
+    if OverridedDBAuthList <> nil then
+    begin
+        Result := OverridedDBAuthList.Data;
+    end;
+
     LRegistry := TRegistry.Create();
     try
         if LRegistry.OpenKeyReadOnly(CLoodsmanRegKeyName) then
@@ -461,6 +489,14 @@ end;
 procedure OverrideAppServerList(const AList: String);
 begin
     OverridedAppServerList := AList;
+end;
+
+procedure OverrideDBAuthList(const ABase: String; const ADatabaseAuth:
+    TDatabaseAuth; const AUserName, APassword: String);
+begin
+    OverridedDBAuthList := CreateDBAuthList();
+    SetBaseAuthParams(OverridedDBAuthList, ABase, ADatabaseAuth,
+        AUserName, APassword);
 end;
 
 procedure RemoveFromFavorites(const ABase: String; const AVersionID: Integer);
